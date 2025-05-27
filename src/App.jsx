@@ -7,8 +7,10 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import CourseGrid from './pages/courses/Course.jsx';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import { themeConfig } from './themeConfig';
+import CourseHome from './pages/courses/course/CourseHome.jsx';
 
 const LoggedInLayout = ({ children }) => {
     const { theme } = useSelector((state) => state.theme);
@@ -49,7 +51,7 @@ function App() {
                 />
                 <Route
                     path="/courses"
-                    element={<LoggedInLayout><div>Courses Page (TBD)</div></LoggedInLayout>}
+                    element={<LoggedInLayout><CourseGrid/></LoggedInLayout>}
                 />
                 <Route
                     path="/schedule"
@@ -59,6 +61,8 @@ function App() {
                     path="/groups"
                     element={<LoggedInLayout><div>Groups Page (TBD)</div></LoggedInLayout>}
                 />
+                <Route path="/course/:courseId" element={<CourseHome />} />
+
             </Routes>
         </div>
     );
