@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Footer } from './components/Footer';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Login from './pages/Login';
@@ -13,18 +14,21 @@ import { themeConfig } from './themeConfig';
 const LoggedInLayout = ({ children }) => {
     const { theme } = useSelector((state) => state.theme);
     const { bg, text } = themeConfig[theme];
+
     return (
-        <div className={`min-h-screen ${bg} ${text}`}>
+        <div className={`min-h-screen flex flex-col ${bg} ${text}`}>
             <Header />
-            <div className="flex pt-[4rem]">
+            <div className="flex flex-1 pt-[4rem]">
                 <Sidebar />
                 <main className="flex-1 p-4 md:p-6 ml-16 md:ml-20 lg:ml-64">
                     {children}
                 </main>
             </div>
+            <Footer /> {/* Footer added here */}
         </div>
     );
 };
+
 
 function App() {
     const { theme } = useSelector((state) => state.theme);
