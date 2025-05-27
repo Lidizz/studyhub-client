@@ -59,3 +59,5 @@ export function CourseModules() {
     </div>
   );
 }
+
+export default CourseModules;
