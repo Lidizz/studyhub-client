@@ -23,7 +23,7 @@ const coursesData = [
         totalModules: 6,
     },
 ];
-/*
+
 
 const modulesData = {
     APP2000: [
@@ -56,8 +56,6 @@ const assignmentsData = {
     // ... assignments for other courses
 };
 
- */
-
 export function CourseHome() {
     const { courseId } = useParams();
     const navigate = useNavigate();
@@ -73,7 +71,7 @@ export function CourseHome() {
     const handleGoBack = () => {
         navigate(-1);
     };
-    /*
+
 
     const handleNavigateToModules = () => {
         navigate(`/course/${courseId}/modules`);
@@ -82,9 +80,6 @@ export function CourseHome() {
     const handleNavigateToAssignments = () => {
         navigate(`/course/${courseId}/assignments`);
     };
-
-
-     */
 
     return (
         <div className="min-h-screen bg-gray-100 rounded-lg">
@@ -100,9 +95,7 @@ export function CourseHome() {
                     {course.title}
                 </h1>
                 <p className="text-gray-600 mb-4">Instructor: {course.instructor}</p>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Course Info Card */}
                     <div className="bg-white rounded-lg p-6 shadow-md border border-gray-200">
                         <h2 className="text-xl font-bold mb-4 text-gray-800">
                             Course Information
@@ -113,12 +106,6 @@ export function CourseHome() {
                             it with the actual course description from your data.
                         </p>
                     </div>
-                    {
-                    /*
-
-                    * Modules Card *
-
-
                     <div
                         className="bg-white rounded-lg p-6 shadow-md border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
                         onClick={handleNavigateToModules}
@@ -131,13 +118,6 @@ export function CourseHome() {
                             View all modules for this course.
                         </p>
                     </div>
-
-
-
-
-
-
-                        /* Assignments Card
                     <div
                         className="bg-white rounded-lg p-6 shadow-md border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
                         onClick={handleNavigateToAssignments}>
@@ -149,10 +129,6 @@ export function CourseHome() {
                             View all assignments for this course.
                         </p>
                     </div>
-
-
-                         */}
-
                 </div>
             </div>
         </div>
