@@ -45,14 +45,20 @@ export function CourseModules() {
           {modules.map((module) => (
             <div
               key={module.id}
-              className="bg-white rounded-lg p-6 shadow-md border border-gray-200"
+
+              //------ny
+              onClick={() =>
+                  navigate(`/course/${courseId}/modules/${module.id}`)
+              }
+
+              className="cursor-pointer bg-white rounded-lg p-6 shadow-md border border-gray-200 hover:bg-gray-50 transition"
             >
               <h3 className="text-xl font-bold text-gray-800 mb-2">
                 {module.title}
               </h3>
               <p className="text-gray-600">{module.content}</p>
-              {/* Add more module details or links here */}
             </div>
+
           ))}
         </div>
       </div>
