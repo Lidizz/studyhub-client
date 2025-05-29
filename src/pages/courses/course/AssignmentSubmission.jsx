@@ -157,17 +157,3 @@ const AssignmentSubmission = () => {
 };
 
 export default AssignmentSubmission;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

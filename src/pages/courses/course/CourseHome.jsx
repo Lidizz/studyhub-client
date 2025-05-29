@@ -1,91 +1,38 @@
-import React from "react";
+import React, { useEffect, useState }  from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, BookOpen, ClipboardList } from "lucide-react";
+import axios from "axios";
 
-// Sample data structure - for now
-const coursesData = [
-    {
-        title: "APP2000",
-        instructor: "Prof. Peyman Teymoori",
-        nextDeadline: "Feb 15",
-        totalModules: 8,
-    },
-    {
-        title: "OBJ2100",
-        instructor: "Prof. Tomas Attila Paulsen Olaj",
-        nextDeadline: "Feb 20",
-        totalModules: 12,
-    },
-    {
-        title: "PRG1000",
-        instructor: "Prof. Ståle Vikhagen",
-        nextDeadline: "Feb 18",
-        totalModules: 6,
-    },
-];
-
-
-const modulesData = {
-    APP2000: [
-        { id: "APP2000-M1", title: "Module 1: Intro to App Dev", content: "..." },
-        { id: "APP2000-M2", title: "Module 2: React Basics", content: "..." },
-        // ... more modules
-    ],
-    OBJ2100: [
-        // ... modules for OBJ2100
-    ],
-    // ... modules for other courses
-};
-
-const assignmentsData = {
-    APP2000: [
-        {
-            id: "APP2000-A1",
-            title: "Assignment 1: First App",
-            description: "...",
-            dueDate: "2024-03-10",
-        },
-        {
-            id: "APP2000-A2",
-            title: "Assignment 2: React Project",
-            description: "...",
-            dueDate: "2024-03-24",
-        },
-        // ... more assignments
-    ],
-    // ... assignments for other courses
-};
 
 export function CourseHome() {
     const { courseId } = useParams();
     const navigate = useNavigate();
+    const [course, setCourse] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // Find the course data based on courseId
-    const course = coursesData.find((c) => c.title === courseId);
+    useEffect(() => {
 
-    if (!course) {
-        return <div>Course not found!</div>; // if it does not exist
-    }
+        axios.get(`http://localhost:8080/api/courses/${courseId}`)
+            .then((response) => {
+                setCourse(response.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message || 'Course not found');
+                setLoading(false);
+            });
+    }, [courseId]);
 
-    // Go back to the previous page
-    const handleGoBack = () => {
-        navigate(-1);
-    };
-
-
-    const handleNavigateToModules = () => {
-        navigate(`/course/${courseId}/modules`);
-    };
-
-    const handleNavigateToAssignments = () => {
-        navigate(`/course/${courseId}/assignments`);
-    };
+    if (loading) return <div className="p-6">Loading course information...</div>;
+    if (error) return <div className="p-6 text-red-600">Error loading course: {error}</div>;
+    if (!course) return <div className="p-6">Course not found!</div>;
 
     return (
         <div className="min-h-screen bg-gray-100 rounded-lg">
             <div className="max-w-7xl mx-auto px-6 py-8">
                 <button
-                    onClick={handleGoBack}
+                    onClick={() => navigate(-1)}
                     className="flex items-center mb-4 text-purple-600 hover:text-purple-800"
                 >
                     <ArrowLeft className="mr-2" /> Back
@@ -95,6 +42,7 @@ export function CourseHome() {
                     {course.title}
                 </h1>
                 <p className="text-gray-600 mb-4">Instructor: {course.instructor}</p>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white rounded-lg p-6 shadow-md border border-gray-200">
                         <h2 className="text-xl font-bold mb-4 text-gray-800">
@@ -102,13 +50,13 @@ export function CourseHome() {
                         </h2>
                         <p className="text-gray-600">
                             {/* Placeholder content: */}
-                            This is a placeholder for the course description. You can replace
-                            it with the actual course description from your data.
+                            {course.description || "This is a placeholder for the course description."}
                         </p>
                     </div>
+
                     <div
                         className="bg-white rounded-lg p-6 shadow-md border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
-                        onClick={handleNavigateToModules}
+                        onClick={() => navigate(`/course/${courseId}/modules`)}
                     >
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-bold text-gray-800">Modules</h2>
@@ -118,9 +66,11 @@ export function CourseHome() {
                             View all modules for this course.
                         </p>
                     </div>
+
                     <div
                         className="bg-white rounded-lg p-6 shadow-md border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
-                        onClick={handleNavigateToAssignments}>
+                        onClick={() => navigate(`/course/${courseId}/assignments`)}
+                    >
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-bold text-gray-800">Assignments</h2>
                             <ClipboardList className="text-purple-600" size={24} />
@@ -133,6 +83,12 @@ export function CourseHome() {
             </div>
         </div>
     );
-};
+}
+
 export default CourseHome;
+
+
+
+
+
 
