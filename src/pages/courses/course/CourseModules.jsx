@@ -1,33 +1,52 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import axios from "axios";
+import {CourseCard} from "../CourseCard.jsx";
+//import ModuleDetails from "./pages/courses/course/ModuleDetails";
 
-const modulesData = {
-  APP2000: [
-    {
-      id: "APP2000-M1",
-      title: "Module 1: Intro to App Dev",
-      content: "Why app?",
-    },
-    { id: "APP2000-M2", title: "Module 2: React Basics", content: "..." },
-    { id: "APP2000-M3", title: "Module 3: React Basics 2", content: "..." },
-    // ... more modules
-  ],
-  OBJ2100: [
-    // ... modules for OBJ2100
-  ],
-  // ... modules for other courses
-};
+
+
 
 export function CourseModules() {
   const { courseId } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  //const user = JSON.parse(localStorage.getItem("user"));
+  //const instructorId = user?.id;
+  //const studentId = user?.id;
+  const [modules, setModules] = useState([]);
+
+  useEffect(() => {
+
+
+
+    if (!courseId) {
+      setError("No module ID found");
+      setLoading(false);
+      return;
+    }
+
+    axios.get(`http://localhost:8080/api/courses/${courseId}/modules`)
+
+        .then(response => {
+          setModules(response.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('Error fetching module:', err);
+          setError('Error fetching modules');
+          setLoading(false);
+        });
+  }, [courseId]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   const handleGoBack = () => {
     navigate(-1); // Go back to the previous page
   };
-
-  const modules = modulesData[courseId] || []; // Get modules for the course
 
   return (
     <div className="min-h-screen bg-gray-100 rounded-lg">
@@ -43,17 +62,19 @@ export function CourseModules() {
         </h1>
         <div className="grid grid-cols-1 gap-6">
           {modules.map((module) => (
-            <div
-              key={module.id}
-              className="bg-white rounded-lg p-6 shadow-md border border-gray-200"
-            >
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
-                {module.title}
-              </h3>
-              <p className="text-gray-600">{module.content}</p>
-              {/* Add more module details or links here */}
-            </div>
-          ))}
+              <div
+                  key={module.id}
+                  className="bg-white rounded-lg p-6 shadow-md border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
+                  onClick={() => navigate(`/course/${courseId}/module/${module.id}`)}
+              >
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  {module.title}
+                </h3>
+                <p className="text-gray-600 mb-2 line-clamp-2">
+                  {module.description}
+                </p>
+              </div>
+        ))}
         </div>
       </div>
     </div>
