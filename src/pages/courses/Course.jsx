@@ -44,10 +44,10 @@ export function CourseGrid() {
                 {courses.map((course, index) => (
                     <CourseCard
                         key={index}
-                        title={course.id}
-                        instructor={course.department} // optional, replace if needed
+                        title={course.title}
+                        instructor={course.department}
                         nextDeadline="N/A"
-                        totalModules={course.credits}
+                        totalModules={course.credits} // NEEDS TO BE UPDATED. INCORRECT FIELD.
                     />
                 ))}
             </div>
