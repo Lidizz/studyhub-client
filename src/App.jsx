@@ -14,6 +14,7 @@ import CourseHome from './pages/courses/course/CourseHome.jsx';
 import CourseModules from './pages/courses/course/CourseModules.jsx';
 import CourseAssignment from './pages/courses/course/CourseAssignment.jsx';
 import AssignmentSubmission from './pages/courses/course/AssignmentSubmission.jsx';
+import ModulesCreate from "./pages/courses/course/courseEdit/ModulesCreate.jsx";
 
 
 const LoggedInLayout = ({ children }) => {
@@ -77,6 +78,9 @@ function App() {
                 <Route path="/course/:courseId/assignments/:assignmentId"
                        element={<LoggedInLayout><AssignmentSubmission /></LoggedInLayout>}
                 />
+                <Route path="/course/:courseId/modules/courseCreate"
+                       element={<LoggedInLayout><ModulesCreate /></LoggedInLayout>}
+                       />
             </Routes>
         </div>
     );

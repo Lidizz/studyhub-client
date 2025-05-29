@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
+
 const modulesData = {
   APP2000: [
     {
@@ -30,14 +31,27 @@ export function CourseModules() {
   const modules = modulesData[courseId] || []; // Get modules for the course
 
   return (
-    <div className="min-h-screen bg-gray-100 rounded-lg">
+
+
+    <div className="relative min-h-screen bg-gray-100 rounded-lg">
       <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="flex justify-between items-center mb-4 text-purple-600">
         <button
           onClick={handleGoBack}
           className="flex items-center mb-4 text-purple-600 hover:text-purple-800"
         >
           <ArrowLeft className="mr-2" /> Back to Course
         </button>
+
+        <button
+            onClick={() => navigate("/course/:courseId/modules/courseCreate")}
+            className="flex items-center text-purple-600 hover:text-purple-800"
+        >
+          Go to course create
+        </button>
+        </div>
+        <div className="relative h-screen">
+
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
           Modules for {courseId}
         </h1>
@@ -57,7 +71,10 @@ export function CourseModules() {
         </div>
       </div>
     </div>
+    </div>
   );
 }
+
+
 
 export default CourseModules;
