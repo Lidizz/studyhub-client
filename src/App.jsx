@@ -77,7 +77,7 @@ function App() {
                     path="/course/:courseId/module/:moduleId"
                     element={<LoggedInLayout><ModuleDetails /></LoggedInLayout>}
                 />
-                <Route path="/course/:courseId/modules/courseCreate"
+                <Route path="/course/:courseId/modules/ModulesCreate"
                        element={<LoggedInLayout><ModulesCreate /></LoggedInLayout>}
                 />
 

@@ -59,10 +59,11 @@ export function CourseModules() {
           <ArrowLeft className="mr-2" /> Back to Course
         </button>
           <button
-              onClick={() => navigate("/course/:courseId/modules/courseCreate")}
+              onClick={() => navigate(`/course/${courseId}/modules/ModulesCreate`)}
+
               className="flex items-center text-purple-600 hover:text-purple-800"
           >
-            Go to course create
+            Go to module create
           </button>
         </div>
 
