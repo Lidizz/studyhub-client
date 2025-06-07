@@ -2,6 +2,7 @@ import { Calendar, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function CourseCard({
+                               id,
                                title,
                                instructor,
                                nextDeadline,
@@ -11,7 +12,7 @@ export function CourseCard({
     const navigate = useNavigate();
 
     const handleCourseClick = () => {
-        navigate(`/course/${title}`); // Navigate to the course home page
+        navigate(`/course/${id}`); // Navigate to the course home page
     };
 
     return (

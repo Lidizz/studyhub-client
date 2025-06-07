@@ -44,6 +44,7 @@ export function CourseGrid() {
                 {courses.map((course, index) => (
                     <CourseCard
                         key={index}
+                        id ={course.id}
                         title={course.id}
                         instructor={course.department} // optional, replace if needed
                         nextDeadline="N/A"
