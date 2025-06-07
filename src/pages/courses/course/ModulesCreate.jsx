@@ -25,6 +25,7 @@ const ModulesCreate = () => {
             await axios.post(
                 `http://localhost:8080/api/courses/${courseId}/modules`, {
 
+
                     courseId: courseId,
                     title: title,
                     description: description,
@@ -46,7 +47,7 @@ const ModulesCreate = () => {
             setTitle('');
             setDescription('');
             setModuleNumber('');
-            setError('Could submit module');
+            setError('Could not create module');
             setMessage('');
             console.error(err);
         }
@@ -101,6 +102,7 @@ const ModulesCreate = () => {
                         name="description"
                         className="w-full px-3 py-2 border rounded"
                         required
+                        value={description}
                         onChange={(event) => setDescription(event.target.value)}
                                 />
                             </div>
@@ -113,6 +115,7 @@ const ModulesCreate = () => {
                         className="w-full px-3 py-2 border rounded"
                         min="0"
                         required
+                        value={moduleNumber}
                         onChange={(event) => setModuleNumber(event.target.value)}
                                 />
                             </div>
