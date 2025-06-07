@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'lucide-react';
 import { inputStyles, buttonStyles, iconColors } from '../utils/styles';
-import { registerUser } from '../services/api';
+import { API_BASE_URL } from '../config';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -40,13 +41,12 @@ const Signup = () => {
             password: formData.password,
         };
         try {
-            const response = await registerUser(payload);
+            const response = await axios.post(`${API_BASE_URL}/register`, payload);
             console.log('Register successful:', response.data);
-            localStorage.setItem('user', JSON.stringify(response.data));
             navigate('/dashboard');
         } catch (err) {
             console.error('Register failed:', err);
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            setError(err.response?.data || 'An error occurred during registration');
         }
     };
 

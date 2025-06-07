@@ -7,8 +7,17 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import CourseGrid from './pages/courses/Course.jsx';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import { themeConfig } from './themeConfig';
+import CourseHome from './pages/courses/course/CourseHome.jsx';
+import CourseModules from './pages/courses/course/CourseModules.jsx';
+import CourseAssignment from './pages/courses/course/CourseAssignment.jsx';
+import AssignmentSubmission from './pages/courses/course/AssignmentSubmission.jsx';
+import ModuleDetails from "./pages/courses/course/ModuleDetails";
+import ModulesCreate from './pages/courses/course/ModulesCreate.jsx';
+import {Footer} from "./components/Footer.jsx";
+
 
 const LoggedInLayout = ({ children }) => {
     const { theme } = useSelector((state) => state.theme);
@@ -22,6 +31,7 @@ const LoggedInLayout = ({ children }) => {
                     {children}
                 </main>
             </div>
+            {/*<Footer />*/}
         </div>
     );
 };
@@ -49,7 +59,7 @@ function App() {
                 />
                 <Route
                     path="/courses"
-                    element={<LoggedInLayout><div>Courses Page (TBD)</div></LoggedInLayout>}
+                    element={<LoggedInLayout><CourseGrid/></LoggedInLayout>}
                 />
                 <Route
                     path="/schedule"
@@ -58,6 +68,27 @@ function App() {
                 <Route
                     path="/groups"
                     element={<LoggedInLayout><div>Groups Page (TBD)</div></LoggedInLayout>}
+                />
+                <Route path="/course/:courseId"
+                       element={<LoggedInLayout><CourseHome /></LoggedInLayout>}
+                />
+                <Route path="/course/:courseId/modules"
+                       element={<LoggedInLayout><CourseModules /></LoggedInLayout>}
+                />
+                <Route
+                    path="/courses/:courseId/modules/:moduleId"
+                    element={<LoggedInLayout><ModuleDetails /></LoggedInLayout>}
+                />
+                <Route path="/course/:courseId/modules/ModulesCreate"
+                       element={<LoggedInLayout><ModulesCreate /></LoggedInLayout>}
+                />
+
+
+                <Route path="/course/:courseId/assignments"
+                       element={<LoggedInLayout><CourseAssignment /></LoggedInLayout>}
+                />
+                <Route path="/course/:courseId/assignments/:assignmentId"
+                       element={<LoggedInLayout><AssignmentSubmission /></LoggedInLayout>}
                 />
             </Routes>
         </div>

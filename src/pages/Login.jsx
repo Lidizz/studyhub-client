@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'lucide-react';
 import { inputStyles, buttonStyles, iconColors } from '../utils/styles';
-import { loginUser } from '../services/api';
+import { API_BASE_URL } from '../config';
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -37,13 +38,17 @@ const Login = () => {
         e.preventDefault();
         setError('');
         try {
-            const response = await loginUser(formData.email, formData.password);
+            // Update the login endpoint to use email instead of username
+            const response = await axios.post(`${API_BASE_URL}/login`, {
+                email: formData.email,
+                password: formData.password,
+            });
             console.log('Login successful:', response.data);
             localStorage.setItem('user', JSON.stringify(response.data));
             navigate('/dashboard');
         } catch (err) {
             console.error('Login failed:', err);
-            setError(err.response?.data?.message || 'Login failed. Please try again.');
+            setError(err.response?.data || 'An error occurred during login');
         }
     };
 
