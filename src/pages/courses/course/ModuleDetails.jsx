@@ -30,7 +30,19 @@ export default function ModuleDetails () {
         setLoadingResources(true);
         axios.get(`http://localhost:8080/api/modules/${moduleId}/resources`)
             .then(res => setResources(res.data))
-            .catch(() => setError("Resource not found for module"))
+            .catch(error =>{
+                if (error.res){
+                    console.log(error.res.data);
+                    console.log(error.res.status);
+                    console.log(error.res.headers);
+
+                    if(error.res.status === 404){
+                        alert("Error: Resource not found.");
+
+                    }
+                }
+            })
+
             .finally(() => setLoadingResources(false));
     }, [moduleId]);
 
