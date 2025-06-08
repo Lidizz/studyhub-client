@@ -34,6 +34,26 @@ export default function ModuleDetails () {
             .finally(() => setLoadingResources(false));
     }, [moduleId]);
 
+    //-----------------download file--------
+
+    const handleDownload = async (resId, fileName) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/api/modules/${moduleId}/resources/${resId}/download`,
+                {responseType: 'blob'}
+            );
+            const blob = new Blob([response.data]);
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName || `file`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }catch(err) {
+            console.error("Error while downloading: ",err );
+            alert("Failed to download resource");
+        }
+    };
 
     if (loadingModule || loadingResources)
         return <div className="p-6">Loading module...</div>;
@@ -68,7 +88,7 @@ export default function ModuleDetails () {
                         <ul className="list-disc pl-5 space-y-2">
                             {resources.map((res) => (
                                 <li key={res.id}>
-                                    <p><strong>{res.title}</strong> - {res.type}</p>
+                                    <p><strong>{res.title}</strong> </p>
                                     {res.content && (
                                         <p className="text-sm text-gray-600 whitespace-pre-wrap mt-1">
                                             {res.content}
@@ -77,6 +97,21 @@ export default function ModuleDetails () {
                                     {res.originalFileName && (
                                         <p className="text-xs text-gray-400 italic">
                                             {res.originalFileName}
+                                        </p>
+                                    )}
+
+                                    {/*/----button for downloading resources--*/}
+                                    {res.originalFileName ? (
+                                        <button
+                                            onClick={() => handleDownload(res.id, res.originalFileName)}
+                                            className="text-blue-400 hover:text-purple-800 flex items-center"
+                                        >
+                                            Download resource
+                                        </button>
+                                    ) : (
+                                        <p className="text-sm text-gray-500 mt-1">
+                                            No resources found.
+
                                         </p>
                                     )}
                                 </li>
