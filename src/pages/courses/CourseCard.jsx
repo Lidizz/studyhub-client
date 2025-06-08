@@ -1,12 +1,12 @@
-import { Calendar, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function CourseCard({
                                id,
                                title,
                                instructor,
-                               nextDeadline,
-                               //progress,
+                               // nextDeadline,
+                               // progress,
                                totalModules,
                            }) {
     const navigate = useNavigate();
@@ -25,21 +25,21 @@ export function CourseCard({
                 <p className="text-gray-600 mb-4">{instructor}</p>
 
                 <div className="space-y-3">
-                    <div className="flex items-center text-gray-600">
-                        <Calendar size={18} className="mr-2" />
-                        <span>Next deadline: {nextDeadline}</span>
-                    </div>
+                    <div className="flex items-left text-gray-600">
+                    {/*    <Calendar size={18} className="mr-2" />*/}
+                    {/*    <span>Next deadline: {nextDeadline}</span>*/}
+                    {/*</div>*/}
 
-                    <div className="flex items-center text-gray-600">
+                    <div className="flex items-left text-gray-600">
                         <BookOpen size={18} className="mr-2" />
                         <span>{totalModules} modules</span>
                     </div>
 
-                    <div className="mt-4">
-                        <div //className="w-full bg-gray-200 rounded-full h-2">
-                            className="bg-gradient-to-r from-pink-500 to-blue-500 h-2 rounded-full">
+                    {/*<div className="mt-4">*/}
+                        {/*<div //className="w-full bg-gray-200 rounded-full h-2">*/}
+                        {/*    className="bg-gradient-to-r from-pink-500 to-blue-500 h-2 rounded-full">*/}
 
-                        </div>
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>

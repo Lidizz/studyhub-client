@@ -12,8 +12,6 @@ export function CourseGrid() {
 
     useEffect(() => {
 
-
-
         if (!studentId) {
             setError("No student ID found");
             setLoading(false);
@@ -35,7 +33,6 @@ export function CourseGrid() {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
-
     return (
         <div className="bg-gray-100 p-6 rounded-lg">
             <h1 className="text-3xl font-bold mb-8 text-gray-800">Your Courses</h1>
@@ -45,7 +42,7 @@ export function CourseGrid() {
                     <CourseCard
                         key={index}
                         id ={course.id}
-                        title={course.id}
+                        title={course.title}
                         instructor={course.department} // optional, replace if needed
                         nextDeadline="N/A"
                         totalModules={course.credits}
@@ -56,9 +53,4 @@ export function CourseGrid() {
     );
 }
 
-
-
-
 export default CourseGrid;
-
-
