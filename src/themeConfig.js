@@ -5,7 +5,7 @@ export const themeConfig = {
         border: 'border-light-accent',
         accentBg: 'bg-light-accent',
         accentText: 'text-light-bg',
-        hoverBg: 'hover:bg-gray-700',
+        hoverBg: 'hover:bg-purple-200',
         hoverText: 'hover:text-white',
     },
     dark: {

@@ -17,7 +17,4 @@ export const buttonStyles = {
 export const iconColors = {
     light: '#111827', // Black for light mode
     dark: '#f9fafb',  // White for dark mode
-    ocean: '#dbeafe', // Light blue for ocean
-    forest: '#d9f99d', // Pale lime for forest
-    sunset: '#ffedd5', // Soft peach for sunset
 };

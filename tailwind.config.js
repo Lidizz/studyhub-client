@@ -14,12 +14,12 @@ export default {
         'radial-gradient': 'radial-gradient(#280a48, #20043d)',
       },
       colors: {
-        // Light: Clean, high contrast
+        // Light:
         'light-bg': '#f9fafb', // Gray-50
         'light-text': '#374151', // Gray-700, dark text
         'light-accent': '#6366f1', // Indigo-500, darker buttons
-        // Dark: Deep and crisp
-        'dark-bg': '#1f2937', // Gray-800, darker
+        // Dark:
+        'dark-bg': '#2d3748', // Gray-700
         'dark-text': '#e5e7eb', // Gray-200, bright text
         'dark-accent': '#9333ea', // Purple-600, softer purple
       },

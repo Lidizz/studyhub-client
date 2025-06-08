@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import {useParams, useNavigate} from "react-router-dom";
-import {ArrowLeft} from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { themeConfig } from "../../../themeConfig";
 
-export default function ModuleDetails () {
-    const {courseId, moduleId} = useParams();
+export default function ModuleDetails() {
+    const { courseId, moduleId } = useParams();
     const navigate = useNavigate();
-
+    const { theme } = useSelector((state) => state.theme);
+    const { bg, text, border } = themeConfig[theme];
     const [module, setModule] = useState(null);
     const [resources, setResources] = useState([]);
     const [loadingModule, setLoadingModule] = useState(true);
     const [loadingResources, setLoadingResources] = useState(true);
     const [error, setError] = useState(null);
-
-//------------Module----------------------
 
     useEffect(() => {
         setLoadingModule(true);
@@ -22,8 +23,6 @@ export default function ModuleDetails () {
             .catch(err => setError(err.message || "Module not found"))
             .finally(() => setLoadingModule(false));
     }, [courseId, moduleId]);
-
-    //---------------Resource------------------
 
     useEffect(() => {
         setResources([]);
@@ -34,13 +33,11 @@ export default function ModuleDetails () {
             .finally(() => setLoadingResources(false));
     }, [moduleId]);
 
-    //-----------------download file--------
-
     const handleDownload = async (resId, fileName) => {
         try {
             const response = await axios.get(
                 `http://localhost:8080/api/modules/${moduleId}/resources/${resId}/download`,
-                {responseType: 'blob'}
+                { responseType: 'blob' }
             );
             const blob = new Blob([response.data]);
             const url = window.URL.createObjectURL(blob);
@@ -49,8 +46,8 @@ export default function ModuleDetails () {
             a.download = fileName || `file`;
             a.click();
             window.URL.revokeObjectURL(url);
-        }catch(err) {
-            console.error("Error while downloading: ",err );
+        } catch (err) {
+            console.error("Error while downloading: ", err);
             alert("Failed to download resource");
         }
     };
@@ -62,21 +59,21 @@ export default function ModuleDetails () {
         return <div className="p-6 text-red-600">Error: {error}</div>;
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6">
+        <div className={`min-h-screen ${bg} ${text} p-6`}>
             <button
                 onClick={() => navigate(-1)}
-                className="text-purple-600 hover:text-purple-800 mb-4 flex items-center"
+                className={`text-purple-600 hover:text-purple-800 mb-4 flex items-center ${theme === 'light' ? 'text-[#9333ea] hover:text-[#7b2cbf]' : 'text-[#f9fafb] hover:text-[#d8b4fe]'}`}
             >
-                <ArrowLeft className="mr-2"/>Back to modules
+                <ArrowLeft className="mr-2" /> Back to Modules
             </button>
 
-            <div className="bg-white p-6 rounded-lg shadow-md border max-w-2xl">
+            <div className={`bg-white p-6 rounded-lg shadow-md border max-w-2xl ${border}`}>
                 <h1 className="text-2xl font-bold mb-4">{module.title}</h1>
                 <p className="mb-2 text-gray-600">
-                    <strong>Description:</strong>{module.description}
+                    <strong>Description:</strong> {module.description}
                 </p>
                 <p className="mb-2 text-gray-600">
-                    <strong>Module No:</strong>{module.moduleNumber}
+                    <strong>Module No:</strong> {module.moduleNumber}
                 </p>
 
                 <div className="mt-6">
@@ -88,7 +85,7 @@ export default function ModuleDetails () {
                         <ul className="list-disc pl-5 space-y-2">
                             {resources.map((res) => (
                                 <li key={res.id}>
-                                    <p><strong>{res.title}</strong> </p>
+                                    <p><strong>{res.title}</strong></p>
                                     {res.content && (
                                         <p className="text-sm text-gray-600 whitespace-pre-wrap mt-1">
                                             {res.content}
@@ -100,7 +97,6 @@ export default function ModuleDetails () {
                                         </p>
                                     )}
 
-                                    {/*/----button for downloading resources--*/}
                                     {res.originalFileName ? (
                                         <button
                                             onClick={() => handleDownload(res.id, res.originalFileName)}
@@ -111,7 +107,6 @@ export default function ModuleDetails () {
                                     ) : (
                                         <p className="text-sm text-gray-500 mt-1">
                                             No resources found.
-
                                         </p>
                                     )}
                                 </li>

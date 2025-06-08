@@ -2,36 +2,34 @@ import { BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { themeConfig } from '../../themeConfig';
+import {iconColors} from "../../utils/styles.js";
+import React from "react";
 
-export function CourseCard({
-                               id,
-                               title,
-                               department,
-                               totalModules,
-                           }) {
+const CourseCard = ({ id, title, department, credits }) => {
     const navigate = useNavigate();
     const { theme } = useSelector((state) => state.theme);
-    const { bg, text, hoverBg } = themeConfig[theme];
-    const hoverClass = theme === 'light' ? 'hover:bg-gray-200' : hoverBg;
+    const { bg, text, border, hoverBg } = themeConfig[theme];
 
-    const handleCourseClick = () => {
-        navigate(`/course/${id}`);
-    };
+    const handleCourseClick = () => navigate(`/course/${id}`);
 
     return (
         <button onClick={handleCourseClick} className="w-full">
-            <div className={`rounded-lg p-6 shadow-md cursor-pointer transform transition-all duration-200 ${bg} ${text} ${hoverClass} hover:shadow-lg border border-transparent hover:border-${theme}-accent`}>
+            <div className={`rounded-lg p-6 shadow-md cursor-pointer transition-all duration-200 ${bg} ${text} ${border} ${hoverBg} hover:shadow-lg`}>
                 <div className="flex justify-between items-start mb-4">
                     <h3 className={`text-xl font-semibold ${text}`}>{title}</h3>
                 </div>
                 <p className={text}>{department}</p>
                 <div className="space-y-3">
                     <div className="flex items-left">
-                        <BookOpen size={18} className={`mr-2 ${text}`} />
-                        <span className={text}>{totalModules} modules</span>
+                        <span className="icon-wrapper" style={{ '--icon-color': iconColors[theme] }}>
+                            <BookOpen size={18} className={`mr-2 ${text}`} />
+                        </span>
+                        <span className={text}>{credits} Credit Points</span>
                     </div>
                 </div>
             </div>
         </button>
     );
-}
+};
+
+export default CourseCard;
