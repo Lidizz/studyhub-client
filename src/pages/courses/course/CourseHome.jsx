@@ -1,7 +1,9 @@
 import React, { useEffect, useState }  from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, BookOpen, ClipboardList } from "lucide-react";
-import axios from "axios";
+import { getCourseById } from '../../../services/api';
+
+
 
 
 export function CourseHome() {
@@ -13,7 +15,7 @@ export function CourseHome() {
 
     useEffect(() => {
 
-        axios.get(`http://localhost:8080/api/courses/${courseId}`)
+        getCourseById(courseId)
             .then((response) => {
                 setCourse(response.data);
                 setLoading(false);
@@ -27,6 +29,7 @@ export function CourseHome() {
     if (loading) return <div className="p-6">Loading course information...</div>;
     if (error) return <div className="p-6 text-red-600">Error loading course: {error}</div>;
     if (!course) return <div className="p-6">Course not found!</div>;
+
 
     return (
         <div className="min-h-screen bg-gray-100 rounded-lg">

@@ -39,7 +39,7 @@ const Login = () => {
         setError('');
         try {
             // Update the login endpoint to use email instead of username
-            const response = await axios.post(`${API_BASE_URL}/login`, {
+            const response = await axios.post(`${API_BASE_URL}/users/login`, {
                 email: formData.email,
                 password: formData.password,
             });
