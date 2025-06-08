@@ -1,27 +1,36 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTheme } from '../store/themeSlice';
 import { themeConfig } from '../themeConfig';
 
 const Header = () => {
     const navigate = useNavigate();
     const { theme } = useSelector((state) => state.theme);
+    const dispatch = useDispatch();
     const { bg, text, border } = themeConfig[theme];
 
-    return (
-        <header className={`shadow-lg px-4 py-4 fixed top-0 left-0 right-0 z-50 ${bg} ${text} ${border} min-h-[4rem] flex items-center`}>
-            <div className="flex items-center justify-between w-full">
-                {/* Logo - Absolute Left */}
-                <div
-                    className="absolute left-4 cursor-pointer"
-                    onClick={() => navigate('/dashboard')}
-                >
-                    <h1 className="text-xl md:text-2xl font-bold gradient-text">StudyHub</h1>
-                </div>
+    const handleThemeToggle = () => {
+        dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
+    };
 
-                {/* Profile - Absolute Right */}
+    return (
+        <header className={`shadow-lg px-4 py-4 fixed top-0 left-0 right-0 z-50 ${bg} ${text} ${border} min-h-[4rem] flex items-center justify-between`}>
+            <div
+                className="cursor-pointer"
+                onClick={() => navigate('/dashboard')}
+            >
+                <h1 className="text-xl md:text-2xl font-bold gradient-text">StudyHub</h1>
+            </div>
+            <div className="flex items-center space-x-4">
+                <button
+                    onClick={handleThemeToggle}
+                    className={`px-3 py-1 rounded-md ${theme === 'light' ? 'bg-gray-200 text-gray-800' : 'bg-gray-700 text-gray-200'} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                >
+                    {theme === 'light' ? '🌙' : '☀️'}
+                </button>
                 <div
-                    className="absolute right-4 cursor-pointer"
+                    className="cursor-pointer"
                     onClick={() => navigate('/profile')}
                 >
                     <img

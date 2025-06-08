@@ -72,17 +72,3 @@ export function CourseAssignment() {
 }
 
 export default CourseAssignment;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

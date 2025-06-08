@@ -1,23 +1,27 @@
-import React, {useState} from 'react';
-import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Upload, X, Calendar, CheckCircle } from "lucide-react";
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Upload, X, Calendar, CheckCircle } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { themeConfig } from '../../../themeConfig';
+import {inputStyles, buttonStyles} from "../../../utils/styles.js"; // Adjusted path
 
 const AssignmentSubmission = () => {
     const { courseId, assignmentId } = useParams();
     const navigate = useNavigate();
+    const { theme } = useSelector((state) => state.theme);
+    const { bg, text, accentBg } = themeConfig[theme];
 
     const [submission, setSubmission] = useState({
         text: '',
-        fileName: 'No file chosen'
+        fileName: 'No file chosen',
     });
     const assignment = {
         id: assignmentId || 'APP2000-A1',
         title: 'Assignment 1: First App',
         description: 'Create your first application using React and demonstrate your understanding of components, props, and state management.',
         dueDate: '2024-03-10',
-        status: 'pending'
+        status: 'pending',
     };
-
 
     const handleGoBack = () => {
         navigate(`/course/${courseId}/assignments`);
@@ -26,17 +30,17 @@ const AssignmentSubmission = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setSubmission(prev => ({
+            setSubmission((prev) => ({
                 ...prev,
-                fileName: file.name
+                fileName: file.name,
             }));
         }
     };
 
     const clearFile = () => {
-        setSubmission(prev => ({
+        setSubmission((prev) => ({
             ...prev,
-            fileName: 'No file chosen'
+            fileName: 'No file chosen',
         }));
     };
 
@@ -47,17 +51,16 @@ const AssignmentSubmission = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 rounded-lg">
+        <div className={`min-h-screen ${bg} ${text} rounded-lg`}>
             <div className="max-w-7xl mx-auto px-6 py-8">
-
                 <button
                     onClick={handleGoBack}
                     className="flex items-center mb-6 text-purple-600 hover:text-purple-800"
                 >
-                    <ArrowLeft className="mr-2"/>
+                    <ArrowLeft className="mr-2" />
                     <span>Back to Assignments</span>
                 </button>
-                <div className="bg-white rounded-lg shadow-md border border-gray-200">
+                <div className={`rounded-lg shadow-md border ${theme === 'light' ? 'border-gray-200' : 'border-gray-700'}`}>
                     <div className="border-b border-gray-200 bg-purple-50 p-6">
                         <h1 className="text-2xl font-bold text-purple-900 mb-2">
                             {assignment.title}
@@ -67,7 +70,7 @@ const AssignmentSubmission = () => {
                         </p>
                         <div className="flex flex-wrap items-center gap-6 text-sm">
                             <div className="flex items-center text-gray-600">
-                                <Calendar className="w-4 h-4 mr-2"/>
+                                <Calendar className="w-4 h-4 mr-2" />
                                 <span>Due: {new Date(assignment.dueDate).toLocaleDateString()}</span>
                             </div>
                         </div>
@@ -80,8 +83,8 @@ const AssignmentSubmission = () => {
                                 </label>
                                 <textarea
                                     value={submission.text}
-                                    onChange={(e) => setSubmission(prev => ({...prev, text: e.target.value}))}
-                                    className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    onChange={(e) => setSubmission((prev) => ({ ...prev, text: e.target.value }))}
+                                    className={`w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
                                     rows="6"
                                     placeholder="Type your answer here..."
                                 />
@@ -101,9 +104,9 @@ const AssignmentSubmission = () => {
                                     <button
                                         type="button"
                                         onClick={() => document.getElementById('assignmentFile').click()}
-                                        className="px-4 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors flex items-center gap-2"
+                                        className={`px-4 py-2 border ${theme === 'light' ? 'border-light-accent' : 'border-dark-accent'} text-${theme}-accent rounded-lg hover:${accentBg} transition-colors flex items-center gap-2`}
                                     >
-                                        <Upload className="w-5 h-5"/>
+                                        <Upload className="w-5 h-5" />
                                         <span>Choose File</span>
                                     </button>
                                     <span className="text-gray-600 truncate flex-1">
@@ -115,7 +118,7 @@ const AssignmentSubmission = () => {
                                             onClick={clearFile}
                                             className="text-gray-400 hover:text-gray-600"
                                         >
-                                            <X className="w-5 h-5"/>
+                                            <X className="w-5 h-5" />
                                         </button>
                                     )}
                                 </div>
@@ -127,13 +130,13 @@ const AssignmentSubmission = () => {
                                 <button
                                     type="button"
                                     onClick={handleGoBack}
-                                    className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className={`px-6 py-2 rounded-lg ${theme === 'light' ? 'border-gray-300 text-gray-700 hover:bg-gray-50' : 'border-gray-600 text-gray-200 hover:bg-gray-700'}`}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
+                                    className={`px-6 py-2 rounded-lg ${buttonStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200`}
                                 >
                                     Submit Assignment
                                 </button>
