@@ -12,9 +12,12 @@ const CourseCard = ({ id, title, department, credits }) => {
 
     const handleCourseClick = () => navigate(`/course/${id}`);
 
+    const handleCourseClick2 = () => navigate(`/courses/${id}/CourseEdit`);
+
     return (
 <div className="relative w-full">
-    <button className="absolute top-2 right-2 bg-blue-500 text-white rounded px-2 py-1 text-sm shadow">
+    <button onClick={handleCourseClick2}
+        className="absolute top-2 right-2 bg-blue-500 text-white rounded px-2 py-1 text-sm shadow">
         Edit
     </button>
         <button onClick={handleCourseClick} className="w-full">

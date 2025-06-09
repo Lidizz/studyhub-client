@@ -14,6 +14,7 @@ const CourseCreate = () => {
     const [code, setCode] = React.useState('');
     const [title, setTitle] = React.useState('');
     const [department, setDepartment] = React.useState('');
+    const [description, setDescription] = React.useState('');
     const [credits, setCredits] = React.useState('');
     const [startDate, setStartDate] = React.useState('');
     const [endDate, setEndDate] = React.useState('');
@@ -24,10 +25,11 @@ const CourseCreate = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            axios.post(`http://localhost:8080/api/courses`, {
+            await axios.post(`http://localhost:8080/api/courses`, {
                 code,
                 title,
                 department,
+                description,
                 credits,
                 startDate,
                 endDate,
@@ -35,6 +37,7 @@ const CourseCreate = () => {
            setCode('');
            setTitle('');
            setDepartment('');
+           setDescription('');
            setCredits('');
            setStartDate('');
            setEndDate('');
@@ -87,6 +90,13 @@ const CourseCreate = () => {
                         />
                     </div>
                     <div className="mb-4">
+                        <label htmlFor="description" className={`block text-sm font-medium ${text}`}>Description:</label>
+                        <input
+                            type="text" id="description" name="description" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                            required value={description} onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4">
                         <label htmlFor="credits" className={`block text-sm font-medium ${text}`}>Credits:</label>
                         <input
                             type="number" id="credits" name="credits" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
@@ -97,14 +107,14 @@ const CourseCreate = () => {
                         <label htmlFor="startdate" className={`block text-sm font-medium ${text}`}>Start Date:</label>
                         <input
                             type="date" id="startdate" name="startdate" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            min="0" required value={startDate} onChange={(e) => setStartDate(e.target.value)}
+                            required value={startDate} onChange={(e) => setStartDate(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="enddate" className={`block text-sm font-medium ${text}`}>End Date:</label>
                         <input
                             type="date" id="enddate" name="enddate" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            min="0" required value={endDate} onChange={(e) => setEndDate(e.target.value)}
+                             required value={endDate} onChange={(e) => setEndDate(e.target.value)}
                         />
                     </div>
 

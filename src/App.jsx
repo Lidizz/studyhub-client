@@ -16,6 +16,7 @@ import AssignmentSubmission from './pages/courses/course/AssignmentSubmission.js
 import ModuleDetails from './pages/courses/course/ModuleDetails';
 import ModulesCreate from './pages/courses/course/ModulesCreate.jsx';
 import CourseCreate from './pages/courses/course/CourseCreate.jsx';
+import CourseEdit from './pages/courses/course/CourseEdit.jsx';
 
 const LoggedInLayout = ({ children }) => {
     const { theme } = useSelector((state) => state.theme);
@@ -59,8 +60,11 @@ function App() {
                     path="/courses/create"
                     element={<LoggedInLayout><CourseCreate /></LoggedInLayout>}
                 />
+                <Route
+                    path="/courses/:courseId/CourseEdit"
+                    element={<LoggedInLayout><CourseEdit /></LoggedInLayout>}
 
-
+/>
                 <Route
                     path="/schedule"
                     element={<LoggedInLayout><div>Schedule Page (TBD)</div></LoggedInLayout>}
@@ -85,6 +89,7 @@ function App() {
                     path="/course/:courseId/modules/ModulesCreate"
                     element={<LoggedInLayout><ModulesCreate /></LoggedInLayout>}
                 />
+
                 <Route
                     path="/course/:courseId/assignments"
                     element={<LoggedInLayout><CourseAssignment /></LoggedInLayout>}
