@@ -16,15 +16,72 @@ const ModulesCreate = () => {
     const [moduleNumber, setModuleNumber] = React.useState('');
     const [message, setMessage] = React.useState('');
     const [error, setError] = React.useState('');
+    const [moduleId, setModuleId] = React.useState('');
+    const [type, setType] = React.useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            axios.post(`http://localhost:8080/api/courses/${courseId}/modules`, { courseId, title, description, moduleNumber });
-            setTitle(''); setDescription(''); setModuleNumber(''); setMessage('Module submitted'); setError('');
-        } catch (err) {
-            setError('Could not create module'); setMessage(''); console.error(err);
+            if (type === 'create'){
+                await axios.post(
+                   ` http://localhost:8080/api/courses/${courseId}/modules`,{
+                    courseId,
+                        title,
+                        description,
+                        moduleNumber,
+                }
+            );
+                setTitle('');
+                setDescription('');
+                setModuleNumber('');
+                setMessage('Module created');
+                setError('');
+            } else {
+                setTitle('');
+                setDescription('');
+                setModuleNumber('');
+                setError('Could not create module');
+                setMessage('');
+
+            }
+
+
+            if (type === 'update') {
+                await axios.put('http://localhost:8080/api/courses/${courseId}/modules/{moduleId}',
+                {
+                    courseId,
+                        title,
+                        description,
+                        moduleNumber,
+                        moduleId,
+
+                }
+            );
+                setTitle('');
+                setDescription('');
+                setModuleNumber('');
+                setMessage('Module updated');
+                setError('');
+            }
+
+            if(type === 'delete') {
+                await axios.delete('http://localhost:8080/api/courses/${courseId}/modules/{moduleId}',)
+
+                setTitle('');
+                setDescription('');
+                setModuleNumber('');
+                setMessage('Module deleted');
+                setError('');
+
+            }
+
+        } catch (error) {
+            setError('Error');
+
+            console.log(error);
+
         }
+
     };
 
     const handleGoBack = () => navigate(`/course/${courseId}/modules`);
@@ -42,6 +99,9 @@ const ModulesCreate = () => {
                     <div className={`bg-opacity-20 ${theme === 'light' ? 'bg-[#9333ea]' : 'bg-[#38bdf8]'} p-4 rounded mb-6`}>
                         <h1 className={`text-center text-2xl font-medium ${text}`}>Create Module</h1>
                     </div>
+                    <button type="button" onClick={() => setType('create')}>Create</button>
+                    <button type="button" onClick={() => setType('update')}>Update</button>
+                    <button type="button" onClick={() => setType('delete')}>Delete</button>
                     <div className="mb-4">
                         <label htmlFor="title" className={`block text-sm font-medium ${text}`}>Title:</label>
                         <input
@@ -63,19 +123,37 @@ const ModulesCreate = () => {
                             min="0" required value={moduleNumber} onChange={(e) => setModuleNumber(e.target.value)}
                         />
                     </div>
+                    {(type === 'update' || type === 'delete') && (
+                        <div className="mb-4">
+                            <label htmlFor="moduleId" className={`block text-sm font-medium ${text}`}>
+                                Module ID:
+                            </label>
+                            <input
+                                type="text"
+                                id="moduleId"
+                                name="moduleId"
+                                className={`w-full px-3 py-2 border rounded ${theme === 'light' ? 'bg-white border-gray-300' : 'bg-gray-800 border-gray-600'} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                value={moduleId}
+                                onChange={(event) => setModuleId(event.target.value)}
+                                required={type === 'update' || type === 'delete'}
+                            />
+                        </div>
+                    )}
                     <div className="flex space-x-4">
-                        <button type="button" onClick={handleGoBack} className={`px-6 py-2 rounded-md ${theme === 'light' ? 'bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200' : 'bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700'} transition-colors`}>
-                            Cancel
-                        </button>
                         <button type="submit" className={`px-6 py-2 rounded-md ${accentBg} ${theme === 'light' ? 'text-light-bg' : 'text-dark-bg'} hover:bg-[#7b2cbf] transition-colors font-medium`}>
                             Submit
                         </button>
+                        <button type="button" onClick={handleGoBack} className={`px-6 py-2 rounded-md ${theme === 'light' ? 'bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200' : 'bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700'} transition-colors`}>
+                            Cancel
+                        </button>
+
                     </div>
                     {error && <p className={`mt-4 ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>{error}</p>}
                     {message && <p className={`mt-4 ${theme === 'light' ? 'text-green-700' : 'text-green-400'}`}>{message}</p>}
                 </form>
             </div>
         </div>
+
     );
 };
 
