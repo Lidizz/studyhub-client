@@ -13,6 +13,10 @@ const CourseCard = ({ id, title, department, credits }) => {
     const handleCourseClick = () => navigate(`/course/${id}`);
 
     return (
+<div className="relative w-full">
+    <button className="absolute top-2 right-2 bg-blue-500 text-white rounded px-2 py-1 text-sm shadow">
+        Edit
+    </button>
         <button onClick={handleCourseClick} className="w-full">
             <div className={`rounded-lg p-6 shadow-md cursor-pointer transition-all duration-200 ${bg} ${text} ${border} ${hoverBg} hover:shadow-lg`}>
                 <div className="flex justify-between items-start mb-4">
@@ -29,6 +33,13 @@ const CourseCard = ({ id, title, department, credits }) => {
                 </div>
             </div>
         </button>
+
+
+        </div>
+
+
+
+
     );
 };
 
