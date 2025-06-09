@@ -52,8 +52,22 @@ export default function ModuleDetails() {
         }
     };
 
+
     if (loadingModule || loadingResources)
         return <div className="p-6">Loading module...</div>;
+
+    if (error)
+        return (
+            <>
+                <div className="p-6 text-red-600">Error: {error}</div>
+                <button
+                    onClick={() => navigate(`/courses/${courseId}/modules/${moduleId}/ResourceCreate`)}
+                    className="flex items-center rounded-lg p-6 shadow-md text-purple-600 hover:text-purple-800 hover:scale-105 hover:shadow-lg border border-gray-200"
+                >
+                    Create Resource
+                </button>
+            </>
+        );
 
     if (error)
         return <div className="p-6 text-red-600">Error: {error}</div>;
@@ -65,6 +79,13 @@ export default function ModuleDetails() {
                 className={`text-purple-600 hover:text-purple-800 mb-4 flex items-center ${theme === 'light' ? 'text-[#9333ea] hover:text-[#7b2cbf]' : 'text-[#f9fafb] hover:text-[#d8b4fe]'}`}
             >
                 <ArrowLeft className="mr-2" /> Back to Modules
+            </button>
+
+            <button
+                onClick={() => navigate(`/courses/${courseId}/modules/${moduleId}/ModulesEdit`)}
+                className="flex items-center rounded-lg p-6 shadow-md text-purple-600 hover:text-purple-800 hover:scale-105 hover:shadow-lg border border-gray-200"
+            >
+                Edit Modules
             </button>
 
             <div className={`bg-white p-6 rounded-lg shadow-md border max-w-2xl ${border}`}>

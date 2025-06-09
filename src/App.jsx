@@ -17,6 +17,8 @@ import ModuleDetails from './pages/courses/course/ModuleDetails';
 import ModulesCreate from './pages/courses/course/ModulesCreate.jsx';
 import CourseCreate from './pages/courses/course/CourseCreate.jsx';
 import CourseEdit from './pages/courses/course/CourseEdit.jsx';
+import ResourceCreate from "./pages/courses/course/ResourceCreate.jsx";
+import ModulesEdit from './pages/courses/course/ModulesEdit.jsx';
 
 const LoggedInLayout = ({ children }) => {
     const { theme } = useSelector((state) => state.theme);
@@ -89,7 +91,12 @@ function App() {
                     path="/course/:courseId/modules/ModulesCreate"
                     element={<LoggedInLayout><ModulesCreate /></LoggedInLayout>}
                 />
-
+                <Route path="/courses/:courseId/modules/:moduleId/ResourceCreate"
+                       element={<LoggedInLayout><ResourceCreate /></LoggedInLayout>}
+                />
+                <Route path="/courses/:courseId/modules/:moduleId/ModulesEdit"
+                       element={<LoggedInLayout><ModulesEdit /></LoggedInLayout>}
+                />
                 <Route
                     path="/course/:courseId/assignments"
                     element={<LoggedInLayout><CourseAssignment /></LoggedInLayout>}
