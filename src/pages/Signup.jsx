@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'lucide-react';
-import { inputStyles, buttonStyles, iconColors } from '../utils/styles';
-import { registerUser } from '../services/api';
+import { iconColors } from '../utils/styles';
+import { API_BASE_URL } from '../config';
+import {themeConfig} from "../themeConfig.js";
 
 const Signup = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        firstName: '',
-        lastName: '',
-        role: 'STUDENT',
-        password: '',
-        passwordConfirm: '',
+    const [formData, setFormData] = React.useState({
+        email: '', firstName: '', lastName: '', role: 'STUDENT', password: '', passwordConfirm: '',
     });
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [error, setError] = React.useState('');
     const navigate = useNavigate();
     const { theme } = useSelector((state) => state.theme);
+    const { bg, text, accentBg, border } = themeConfig[theme];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,94 +25,82 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         if (formData.password !== formData.passwordConfirm) {
             setError('Passwords do not match');
             return;
         }
-        const payload = {
-            email: formData.email,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            role: formData.role,
-            password: formData.password,
-        };
         try {
-            const response = await registerUser(payload);
-            console.log('Register successful:', response.data);
-            localStorage.setItem('user', JSON.stringify(response.data));
+            await axios.post(`${API_BASE_URL}/register`, {
+                email: formData.email,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                role: formData.role,
+                password: formData.password,
+            });
             navigate('/dashboard');
         } catch (err) {
-            console.error('Register failed:', err);
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            setError(err.response?.data || 'Registration failed');
         }
     };
 
     const handleReset = () => {
-        setFormData({
-            email: '',
-            firstName: '',
-            lastName: '',
-            role: 'STUDENT',
-            password: '',
-            passwordConfirm: '',
-        });
+        setFormData({ email: '', firstName: '', lastName: '', role: 'STUDENT', password: '', passwordConfirm: '' });
         setError('');
     };
 
     return (
-        <div className="flex min-h-screen flex-col md:flex-row">
-            <div className="md:w-1/2 h-64 md:h-auto bg-cover bg-center" style={{ backgroundImage: 'url(study2.jpg)' }} />
+        <div className={`flex min-h-screen ${bg}`}>
+            <div className="md:w-1/2 h-64 md:h-auto bg-cover bg-center" style={{ backgroundImage: 'url(/study2.jpg)' }} />
             <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-6">
-                <div className={`w-full max-w-md p-6 md:p-8 rounded-lg shadow-xl ${theme === 'light' ? 'bg-white' : 'bg-opacity-20 bg-gray-900'}`}>
-                    <h2 className="text-2xl md:text-3xl font-bold text-center gradient-text mb-6">Join StudyHub</h2>
-                    {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                <div className={`w-full max-w-md p-6 md:p-8 rounded-lg shadow-md ${bg} ${border}`}>
+                    <h2 className={`text-2xl md:text-3xl font-bold text-center ${text} gradient-text`}>Join StudyHub</h2>
+                    {error && <p className={`text-center text-sm ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>{error}</p>}
+                    <form onSubmit={handleSubmit} className="space-y-6 mt-6">
                         <div className="flex space-x-4">
                             <div className="w-1/2">
-                                <label className="block text-sm font-medium">First Name</label>
+                                <label className={`block text-sm font-medium ${text}`}>First Name</label>
                                 <input
                                     type="text"
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleChange}
-                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                                     placeholder="Enter first name"
                                     required
                                 />
                             </div>
                             <div className="w-1/2">
-                                <label className="block text-sm font-medium">Last Name</label>
+                                <label className={`block text-sm font-medium ${text}`}>Last Name</label>
                                 <input
                                     type="text"
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                                     placeholder="Enter last name"
                                     required
                                 />
                             </div>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium">Email</label>
+                            <label className={`block text-sm font-medium ${text}`}>Email</label>
                             <input
                                 type="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className={`mt-1 w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                className={`mt-1 w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                                 placeholder="Enter your email"
                                 required
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium">Role</label>
+                            <label className={`block text-sm font-medium ${text}`}>Role</label>
                             <select
                                 name="role"
                                 value={formData.role}
                                 onChange={handleChange}
-                                className={`mt-1 w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                className={`mt-1 w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                                 required
                             >
                                 <option value="STUDENT">Student</option>
@@ -122,14 +108,14 @@ const Signup = () => {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium">Password</label>
+                            <label className={`block text-sm font-medium ${text}`}>Password</label>
                             <div className="relative">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                                     placeholder="Enter your password"
                                     required
                                 />
@@ -145,14 +131,14 @@ const Signup = () => {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium">Confirm Password</label>
+                            <label className={`block text-sm font-medium ${text}`}>Confirm Password</label>
                             <div className="relative">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     name="passwordConfirm"
                                     value={formData.passwordConfirm}
                                     onChange={handleChange}
-                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${inputStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                                    className={`mt-1 w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                                     placeholder="Confirm your password"
                                     required
                                 />
@@ -170,22 +156,21 @@ const Signup = () => {
                         <div className="flex space-x-4">
                             <button
                                 type="submit"
-                                className={`w-1/2 py-2 px-4 rounded-md ${buttonStyles[theme]} focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-200`}
+                                className={`w-1/2 py-2 px-4 rounded-md ${accentBg} ${theme === 'light' ? 'text-light-bg' : 'text-dark-bg'} hover:bg-[#7b2cbf] focus:outline-none focus:ring-2 focus:ring-[#9333ea] transition-colors`}
                             >
                                 Register
                             </button>
                             <button
                                 type="button"
                                 onClick={handleReset}
-                                className={`w-1/2 py-2 px-4 rounded-md ${buttonStyles[theme]} focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors duration-200`}
+                                className={`w-1/2 py-2 px-4 rounded-md ${theme === 'light' ? 'bg-light-bg text-light-text border border-light-accent hover:bg-gray-200' : 'bg-dark-bg text-dark-text border border-dark-accent hover:bg-gray-700'} focus:outline-none focus:ring-2 focus:ring-[#9333ea] transition-colors`}
                             >
                                 Reset
                             </button>
                         </div>
                     </form>
-                    <p className="text-center text-sm mt-4">
-                        Already have an account?{' '}
-                        <Link to="/login" className="text-purple-500 hover:underline">Login</Link>
+                    <p className={`text-center text-sm mt-4 ${text}`}>
+                        Already have an account? <Link to="/login" className={`${theme === 'light' ? 'text-[#9333ea]' : 'text-[#38bdf8]'} hover:underline`}>Login</Link>
                     </p>
                 </div>
             </div>
