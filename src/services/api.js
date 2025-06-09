@@ -168,7 +168,7 @@ export const getCoursesForInstructor = async (instructorId) => {
 };
 
 export const getSubmissionsByAssignment = async (courseId, assignmentId) => {
-    return api.get(`/courses/${courseId}/assignments/${assignmentId}/submissions`);
+    return api.get(`/courses/${courseId}/submissions/${assignmentId}/submissions`);
 };
 export const getSubmissionsByCourse = async (courseId) => {
     return api.get(`/courses/${courseId}/submissions`);
