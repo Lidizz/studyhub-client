@@ -163,4 +163,27 @@ export const updateSubmission = async (courseId, assignmentId, studentId, submis
     return api.put(`/courses/${courseId}/submissions/${assignmentId}/student/${studentId}`, submissionData);
 };
 
+export const getCoursesForInstructor = async (instructorId) => {
+    return api.get(`/courses/instructor/${instructorId}`);
+};
+
+export const getSubmissionsByAssignment = async (courseId, assignmentId) => {
+    return api.get(`/courses/${courseId}/submissions/${assignmentId}/submissions`);
+};
+export const getSubmissionsByCourse = async (courseId) => {
+    return api.get(`/courses/${courseId}/submissions`);
+};
+
+export const gradeSubmission = async (courseId, assignmentId, studentId, gradeData) => {
+    return api.put(`/courses/${courseId}/submissions/${assignmentId}/student/${studentId}/grade`, gradeData);
+};
+
+export const getAssignmentWithSubmissions = async (courseId, assignmentId) => {
+    return api.get(`/courses/${courseId}/assignments/${assignmentId}/details`);
+};
+
+export const getCoursesSummaryForInstructor = async (instructorId) => {
+    return api.get(`/courses/instructor/${instructorId}/summary`);
+};
+
 export default api;

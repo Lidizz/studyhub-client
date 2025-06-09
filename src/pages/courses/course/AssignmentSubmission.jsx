@@ -17,10 +17,12 @@ const AssignmentSubmission = () => {
     const navigate = useNavigate();
     const { theme } = useSelector((state) => state.theme);
     const { bg, text, accentBg, border } = themeConfig[theme];
-    const [submission, setSubmission] = useState({ text: "", fileName: "No file chosen" });
+    const [submission, setSubmission] = useState({ fileName: "No file chosen" });
     const [assignment, setAssignment] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [feedback, setFeedback] = useState("");
+    const [grade, setGrade] = useState("");
 
     useEffect(() => {
         setLoading(true);
@@ -47,7 +49,6 @@ const AssignmentSubmission = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("text", submission.text);
         if (e.target.assignmentFile.files[0])
             formData.append("file", e.target.assignmentFile.files[0]);
         try {
@@ -62,6 +63,41 @@ const AssignmentSubmission = () => {
         } catch (err) {
             console.error("Submission error:", err);
             alert("Failed to submit assignment");
+        }
+    };
+
+    const handleFeedbackSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(
+                `http://localhost:8080/api/courses/${courseId}/submissions/${assignmentId}/student/${JSON.parse(localStorage.getItem("user"))?.id}`,
+                { feedback, grade }
+            );
+            alert("Feedback and grade updated!");
+        } catch (err) {
+            console.error("Feedback update error:", err);
+            alert("Failed to update feedback and grade");
+        }
+    };
+
+    const handleDownload = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/api/courses/${courseId}/submissions/${assignmentId}/student/${JSON.parse(localStorage.getItem("user"))?.id}/download`,
+                { responseType: "blob" }
+            );
+            const fileName = response.headers["content-disposition"]
+                ?.split("filename=")[1]
+                ?.replace(/"/g, "") || `submission_${assignmentId}.file`;
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error("Download error:", err);
+            alert("Failed to download submission");
         }
     };
 
@@ -118,24 +154,6 @@ const AssignmentSubmission = () => {
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
                                 <label className={`block text-sm font-medium ${text}`}>
-                                    Your Answer
-                                </label>
-                                <textarea
-                                    value={submission.text}
-                                    onChange={(e) =>
-                                        setSubmission((prev) => ({ ...prev, text: e.target.value }))
-                                    }
-                                    className={`w-full px-4 py-2 rounded-md border ${
-                                        theme === "light"
-                                            ? "bg-light-bg border-light-accent"
-                                            : "bg-dark-bg border-dark-accent"
-                                    } ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                                    rows="6"
-                                    placeholder="Type your answer..."
-                                />
-                            </div>
-                            <div>
-                                <label className={`block text-sm font-medium ${text}`}>
                                     Upload Your File
                                 </label>
                                 <div className="flex items-center gap-4">
@@ -188,7 +206,7 @@ const AssignmentSubmission = () => {
                                         theme === "light" ? "text-gray-500" : "text-gray-400"
                                     } mt-2`}
                                 >
-                                    Accepted formats: PDF, DOC, DOCX, ZIP, TXT (Max 10MB)
+                                    Accepted formats: pdf, doc, docx, zip, txt (Max 10MB)
                                 </p>
                             </div>
                             <div className="flex items-center justify-end gap-4">
@@ -211,6 +229,66 @@ const AssignmentSubmission = () => {
                                 >
                                     Submit Assignment
                                 </button>
+                            </div>
+                        </form>
+                        <form onSubmit={handleFeedbackSubmit} className="space-y-6 mt-6">
+                            <div>
+                                <label className={`block text-sm font-medium ${text}`}>
+                                    Feedback
+                                </label>
+                                <textarea
+                                    value={feedback}
+                                    onChange={(e) => setFeedback(e.target.value)}
+                                    className={`w-full px-4 py-2 rounded-md border ${
+                                        theme === "light"
+                                            ? "bg-light-bg border-light-accent"
+                                            : "bg-dark-bg border-dark-accent"
+                                    } ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                                    rows="4"
+                                    placeholder="Enter feedback..."
+                                />
+                            </div>
+                            <div>
+                                <label className={`block text-sm font-medium ${text}`}>
+                                    Grade
+                                </label>
+                                <select
+                                    value={grade}
+                                    onChange={(e) => setGrade(e.target.value)}
+                                    className={`w-full px-4 py-2 rounded-md border ${
+                                        theme === "light"
+                                            ? "bg-light-bg border-light-accent"
+                                            : "bg-dark-bg border-dark-accent"
+                                    } ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                                >
+                                    <option value="">Select Grade</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                            <div className="flex items-center justify-end gap-4">
+                                <button
+                                    type="submit"
+                                    className={`px-6 py-2 rounded-md ${accentBg} ${
+                                        theme === "light" ? "text-light-bg" : "text-dark-bg"
+                                    } hover:bg-[#7b2cbf] focus:outline-none focus:ring-2 focus:ring-[#9333ea] transition-colors`}
+                                >
+                                    Update Feedback
+                                </button>
+                                {JSON.parse(localStorage.getItem("user"))?.role === ("STUDENT") && (
+                                    <button
+                                        onClick={handleDownload}
+                                        className={`px-6 py-2 rounded-md ${accentBg} ${
+                                            theme === "light" ? "text-light-bg" : "text-dark-bg"
+                                        } hover:bg-[#7b2cbf] focus:outline-none focus:ring-2 focus:ring-[#9333ea] transition-colors`}
+                                    >
+                                        Download Submission
+                                    </button>
+                                )}
                             </div>
                         </form>
                     </div>

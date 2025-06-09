@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -8,9 +8,9 @@ import {themeConfig} from "../themeConfig.js";
 import {iconColors} from "../utils/styles.js";
 
 const Login = () => {
-    const [formData, setFormData] = React.useState({ email: '', password: '' });
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [error, setError] = React.useState('');
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const { theme } = useSelector((state) => state.theme);
     const { bg, text, accentBg, border } = themeConfig[theme];
