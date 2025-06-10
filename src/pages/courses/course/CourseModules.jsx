@@ -50,7 +50,7 @@ export const CourseModules = () => {
   if (error) return <p>{error}</p>;
 
   const handleGoBack = () => navigate(`/course/${courseId}`);
-  const handleCourseClick2 = () => navigate(`/courses/${id}/ResourceUpdate`);
+  const handleCourseEdit = () => navigate(`/courses/${id}/ResourceUpdate`);
 
 
   return (
@@ -98,7 +98,7 @@ export const CourseModules = () => {
             >
               <div className="relative w-full">
               <button
-                  onClick={handleCourseClick2}
+                  onClick={handleCourseEdit}
                   className="absolute top-2 right-2 bg-blue-500 hover bg-blue-600 text-white rounded px-2 py-1 text-sm shadow"
               >
                 Edit
