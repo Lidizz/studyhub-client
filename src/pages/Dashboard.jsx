@@ -4,20 +4,20 @@ import { useSelector } from "react-redux";
 import { themeConfig } from "../themeConfig.js";
 
 const Dashboard = () => {
-    const { theme } = useSelector((state) => state.theme);
-    const { bg, text } = themeConfig[theme];
+  const { theme } = useSelector((state) => state.theme);
+  const { bg, text } = themeConfig[theme];
 
-    return (
-        <div className={`min-h-screen p-4 md:p-6 ${bg} ${text}`}>
-            <div className="max-w-7xl mx-auto px-6 py-8">
-                <h1 className="text-2xl md:text-3xl font-bold text-center gradient-text mb-6">
-                    Dashboard
-                </h1>
-                <p className="text-center mb-6">Your semester courses</p>
-                <DashboardCard />
-            </div>
-        </div>
-    );
+  return (
+    <div className={`min-h-screen p-4 md:p-6 ${bg} ${text}`}>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-center gradient-text mb-6">
+          Dashboard
+        </h1>
+        <p className="text-center mb-6">Your semester courses</p>
+        <DashboardCard />
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;

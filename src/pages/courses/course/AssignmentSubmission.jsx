@@ -568,8 +568,8 @@ const AssignmentSubmission = () => {
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span
-                        className="icon-wrapper"
-                          style={{ "--icon-color": iconColors[theme] }}
+                      className="icon-wrapper"
+                      style={{ "--icon-color": iconColors[theme] }}
                     >
                       <CheckCircle size={18} className={`mr-2 ${text}`} />
                     </span>
@@ -596,8 +596,8 @@ const AssignmentSubmission = () => {
                     >
                       <div className="flex items-center gap-2">
                         <span
-                            className="icon-wrapper"
-                            style={{ "--icon-color": iconColors[theme] }}
+                          className="icon-wrapper"
+                          style={{ "--icon-color": iconColors[theme] }}
                         >
                           <Upload size={18} className={`mr-2 ${text}`} />
                         </span>

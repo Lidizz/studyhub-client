@@ -40,36 +40,46 @@ const DashboardCard = () => {
     }
 
     axios
-        .get(endpoint)
-        .then((response) => {
-          setCourses(response.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching courses:", err);
-          setError("Error fetching courses");
-          setLoading(false);
-        });
+      .get(endpoint)
+      .then((response) => {
+        setCourses(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching courses:", err);
+        setError("Error fetching courses");
+        setLoading(false);
+      });
   }, [userId, userRole]);
 
   if (loading) return <p className={`text-center ${text}`}>Loading...</p>;
-  if (error) return <p className={`text-center ${theme === "light" ? "text-red-600" : "text-red-400"}`}>{error}</p>;
+  if (error)
+    return (
+      <p
+        className={`text-center ${theme === "light" ? "text-red-600" : "text-red-400"}`}
+      >
+        {error}
+      </p>
+    );
 
   return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-        {courses.length === 0 && <p className={`text-center ${text}`}>No enrolled courses.</p>}
-        {courses.map((course, index) => (
-            <div
-                className={`rounded-lg p-4 border ${border} shadow-sm ${bg} ${text}`}
-                key={index}
-            >
-              <h2 className="text-lg font-medium">{course.title}</h2>
-              <p className="text-sm mt-1">
-                End Date: <span className="font-medium">{formatDate(course.endDate)}</span>
-              </p>
-            </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      {courses.length === 0 && (
+        <p className={`text-center ${text}`}>No enrolled courses.</p>
+      )}
+      {courses.map((course, index) => (
+        <div
+          className={`rounded-lg p-4 border ${border} shadow-sm ${bg} ${text}`}
+          key={index}
+        >
+          <h2 className="text-lg font-medium">{course.title}</h2>
+          <p className="text-sm mt-1">
+            End Date:{" "}
+            <span className="font-medium">{formatDate(course.endDate)}</span>
+          </p>
+        </div>
+      ))}
+    </div>
   );
 };
 
