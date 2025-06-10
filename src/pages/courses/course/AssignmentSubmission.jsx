@@ -192,7 +192,6 @@ const AssignmentSubmission = () => {
                 return;
             }
 
-            // CHANGED: Direct axios call instead of API service
             const formData = new FormData();
             formData.append('file', file);
 
