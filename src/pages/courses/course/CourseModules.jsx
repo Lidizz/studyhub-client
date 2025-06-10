@@ -7,79 +7,100 @@ import { themeConfig } from "../../../themeConfig";
 import { iconColors } from "../../../utils/styles";
 
 export const CourseModules = () => {
-    const { courseId } = useParams();
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [modules, setModules] = useState([]);
-    const { theme } = useSelector((state) => state.theme);
-    const { bg, text, border, accentBg, hoverBg } = themeConfig[theme];
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [modules, setModules] = useState([]);
+  const { theme } = useSelector((state) => state.theme);
+  const { bg, text, border, accentBg, hoverBg } = themeConfig[theme];
 
-    const [course, setCourse] = useState(null);
+  const [course, setCourse] = useState(null);
 
-    useEffect(() => {
-        setLoading(true);
-        axios
-            .get(`http://localhost:8080/api/courses/${courseId}`)
-            .then((response) => {
-                setCourse(response.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message || "Course not found");
-                setLoading(false);
-            });
-    }, [courseId]);
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:8080/api/courses/${courseId}`)
+      .then((response) => {
+        setCourse(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || "Course not found");
+        setLoading(false);
+      });
+  }, [courseId]);
 
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`http://localhost:8080/api/courses/${courseId}/modules`)
+      .then((response) => {
+        setModules(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching modules:", err);
+        setError("Error fetching modules");
+        setLoading(false);
+      });
+  }, [courseId]);
 
-    useEffect(() => {
-        setLoading(true);
-        axios.get(`http://localhost:8080/api/courses/${courseId}/modules`)
-            .then(response => {
-                setModules(response.data);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error('Error fetching modules:', err);
-                setError('Error fetching modules');
-                setLoading(false);
-            });
-    }, [courseId]);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+  const handleGoBack = () => navigate(`/course/${courseId}`);
 
-    const handleGoBack = () => navigate(`/course/${courseId}`);
-
-    return (
-        <div className={`relative min-h-screen ${bg} ${text}`}>
-            <div className="max-w-7xl mx-auto px-6 py-8">
-                <div className="flex justify-between items-center mb-4">
-                    <button onClick={handleGoBack} className={`flex items-center ${theme === 'light' ? 'text-[#9333ea] hover:text-[#7b2cbf]' : 'text-[#f9fafb] hover:text-[#d8b4fe]'}`}>
-                        <span className="icon-wrapper" style={{ '--icon-color': iconColors[theme] }}>
-                            <ArrowLeft size={18} className={`mr-2 ${text}`} />
-                        </span>
-                        Back to Course
-                    </button>
-                    <button onClick={() => navigate(`/course/${courseId}/modules/ModulesCreate`)} className={`px-6 py-2 rounded-md ${accentBg} ${theme === 'light' ? 'text-light-bg' : 'text-dark-bg'} hover:bg-[#7b2cbf] transition-colors`}>
-                        Create Module
-                    </button>
-                </div>
-                {course && (  // Conditionally render this section
-                    <h1 className="text-3xl font-bold mb-4">Modules for {course.title}</h1>
-                )}
-                <div className="grid grid-cols-1 gap-6">
-                    {modules.length === 0 && <p>No modules available.</p>}
-                    {modules.map((module) => (
-                        <div key={module.id} className={`rounded-lg p-6 shadow-md ${border} cursor-pointer ${hoverBg} transition-colors ${bg} ${text}`} onClick={() => navigate(`/courses/${courseId}/modules/${module.id}`)}>
-                            <h3 className={`text-xl font-bold ${text}`}>{module.title}</h3>
-                            <p className={`text-sm ${text}`}>{module.description || "Info in module"}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
+  return (
+    <div className={`relative min-h-screen ${bg} ${text}`}>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="flex justify-between items-center mb-4">
+          <button
+            onClick={handleGoBack}
+            className={`flex items-center ${theme === "light" ? "text-[#9333ea] hover:text-[#7b2cbf]" : "text-[#f9fafb] hover:text-[#d8b4fe]"}`}
+          >
+            <span
+              className="icon-wrapper"
+              style={{ "--icon-color": iconColors[theme] }}
+            >
+              <ArrowLeft size={18} className={`mr-2 ${text}`} />
+            </span>
+            Back to Course
+          </button>
+          <button
+            onClick={() =>
+              navigate(`/course/${courseId}/modules/ModulesCreate`)
+            }
+            className={`px-6 py-2 rounded-md ${accentBg} ${theme === "light" ? "text-light-bg" : "text-dark-bg"} hover:bg-[#7b2cbf] transition-colors`}
+          >
+            Create Module
+          </button>
         </div>
-    );
+        {course && ( // Conditionally render this section
+          <h1 className="text-3xl font-bold mb-4">
+            Modules for {course.title}
+          </h1>
+        )}
+        <div className="grid grid-cols-1 gap-6">
+          {modules.length === 0 && <p>No modules available.</p>}
+          {modules.map((module) => (
+            <div
+              key={module.id}
+              className={`rounded-lg p-6 shadow-md ${border} cursor-pointer ${hoverBg} transition-colors ${bg} ${text}`}
+              onClick={() =>
+                navigate(`/courses/${courseId}/modules/${module.id}`)
+              }
+            >
+              <h3 className={`text-xl font-bold ${text}`}>{module.title}</h3>
+              <p className={`text-sm ${text}`}>
+                {module.description || "Info in module"}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CourseModules;
