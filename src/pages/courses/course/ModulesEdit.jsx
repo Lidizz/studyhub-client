@@ -1,26 +1,26 @@
 import React, {useEffect} from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { themeConfig } from '../../../themeConfig';
-import { iconColors } from '../../../utils/styles';
+import {ArrowLeft} from 'lucide-react';
+import {useSelector} from 'react-redux';
+import {themeConfig} from '../../../themeConfig';
+import {iconColors} from '../../../utils/styles';
 
 const ModulesEdit = () => {
-    const { courseId } = useParams();
+    const {courseId} = useParams();
     const navigate = useNavigate();
-    const { theme } = useSelector((state) => state.theme);
-    const { bg, text, accentBg, border } = themeConfig[theme];
+    const {theme} = useSelector((state) => state.theme);
+    const {bg, text, accentBg, border} = themeConfig[theme];
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [moduleNumber, setModuleNumber] = React.useState('');
     const [resourceId, setResourceId] = React.useState('');
     const [message, setMessage] = React.useState('');
     const [error, setError] = React.useState('');
-    const { moduleId } = useParams();
+    const {moduleId} = useParams();
     const [type, setType] = React.useState('update');
 
-    console.log(moduleId);
+    // console.log(moduleId);
 
     useEffect(() => {
         if (!moduleId) return;
@@ -99,9 +99,9 @@ const ModulesEdit = () => {
             >
                 <span
                     className="icon-wrapper"
-                    style={{ '--icon-color': iconColors[theme] }}
+                    style={{'--icon-color': iconColors[theme]}}
                 >
-                    <ArrowLeft size={18} className={`mr-2 ${text}`} />
+                    <ArrowLeft size={18} className={`mr-2 ${text}`}/>
                 </span>
                 Back to Modules
             </button>
@@ -126,14 +126,14 @@ const ModulesEdit = () => {
                         <button
                             type="button"
                             onClick={() => setType('update')}
-                            className="px-4 py-2 border rounded hover:bg-purple-100 dark:hover:bg-gray-700"
+                            className={`px-4 py-2 border rounded ${theme === 'light' ? 'hover:bg-purple-100' : 'dark:hover:bg-gray-700'}`}
                         >
                             Update
                         </button>
                         <button
                             type="button"
                             onClick={() => setType('delete')}
-                            className="px-4 py-2 border rounded hover:bg-red-100 dark:hover:bg-gray-700"
+                            className={`px-4 py-2 border rounded ${theme === 'light' ? 'hover:bg-purple-100' : 'dark:hover:bg-gray-700'}`}
                         >
                             Delete
                         </button>
@@ -154,7 +154,8 @@ const ModulesEdit = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="description" className={`block text-sm font-medium ${text}`}>Description:</label>
+                                <label htmlFor="description"
+                                       className={`block text-sm font-medium ${text}`}>Description:</label>
                                 <input
                                     type="text"
                                     id="description"
@@ -166,7 +167,8 @@ const ModulesEdit = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="modulenr" className={`block text-sm font-medium ${text}`}>Module Number:</label>
+                                <label htmlFor="modulenr" className={`block text-sm font-medium ${text}`}>Module
+                                    Number:</label>
                                 <input
                                     type="number"
                                     id="modulenr"
@@ -185,7 +187,8 @@ const ModulesEdit = () => {
                     {type && (
                         <div className="mb-4">
                             <label htmlFor="moduleId" className={`block text-sm font-medium ${text}`}>Module ID:</label>
-                            <input type="text" id="moduleId" className="w-full px-3 py-2 border rounded" value={moduleId || ''} readOnly/>
+                            <input type="text" id="moduleId" className="w-full px-3 py-2 border rounded"
+                                   value={moduleId || ''} readOnly/>
                         </div>
                     )}
 
