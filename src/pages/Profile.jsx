@@ -8,9 +8,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.theme);
   const { bg, text, border, accentBg } = themeConfig[theme];
-  const [profilePic, setProfilePic] = React.useState(
-    "/profile-placeholder.jpg",
-  );
 
   if (!user) {
     navigate("/login");
@@ -36,9 +33,6 @@ const Profile = () => {
         </h2>
 
         <div className="space-y-4 text-sm md:text-base">
-          <p>
-            <strong>Username:</strong> {user.username}
-          </p>
           <p>
             <strong>Email:</strong> {user.email}
           </p>

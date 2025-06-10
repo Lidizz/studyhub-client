@@ -61,7 +61,7 @@ const CourseGrid = () => {
       </button>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-left gradient-text mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-center gradient-text mb-6">
           Your Courses
         </h1>
 
