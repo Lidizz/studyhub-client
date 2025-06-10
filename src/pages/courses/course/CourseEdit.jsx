@@ -20,12 +20,25 @@ const CourseEdit = () => {
     const [endDate, setEndDate] = React.useState('');
     const [message, setMessage] = React.useState('');
     const [error, setError] = React.useState('');
+    const [dateError, setDateError] = React.useState('');
     const { courseId } = useParams();
+
+    const validateDates = () => {
+        if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
+            setDateError('End date must be later than start date');
+            return false;    }    setDateError('');
+        return true;
+    };
 
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validateDates()) {
+            alert('End date must be later than start date. Please adjust your dates.');
+            return;
+        }
         try {
             await axios.put(`http://localhost:8080/api/courses/${courseId}`, {
                 code,
@@ -46,6 +59,7 @@ const CourseEdit = () => {
             setEndDate('');
             setMessage('Course  updated');
             setError('');
+            setDateError('');
 
         } catch (err) {
             setError('Could not update course'); setMessage(''); console.error(err);
@@ -74,26 +88,32 @@ const CourseEdit = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="code" className={`block text-sm font-medium ${text}`}>Course Code (6 characters):</label>
+                        <label htmlFor="code" className={`block text-sm font-medium ${text}`}>Course Code:</label>
                         <input
                             type="text" id="code" name="code" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            required value={code} onChange={(e) => setCode(e.target.value)}
+                            required
+                            placeholder="6 characters"
+                            value={code} onChange={(e) => setCode(e.target.value)}
                         />
                     </div>
 
 
                     <div className="mb-4">
-                        <label htmlFor="title" className={`block text-sm font-medium ${text}`}>Title (4 characters):</label>
+                        <label htmlFor="title" className={`block text-sm font-medium ${text}`}>Title:</label>
                         <input
                             type="text" id="title" name="title" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            required value={title} onChange={(e) => setTitle(e.target.value)}
+                            required
+                            placeholder="Min. 4 characters"
+                            value={title} onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="department" className={`block text-sm font-medium ${text}`}>Department:</label>
                         <input
                             type="text" id="department" name="department" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            required value={department} onChange={(e) => setDepartment(e.target.value)}
+                            required
+                            placeholder="Min. 2 characters"
+                            value={department} onChange={(e) => setDepartment(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
@@ -107,31 +127,51 @@ const CourseEdit = () => {
                         <label htmlFor="credits" className={`block text-sm font-medium ${text}`}>Credits:</label>
                         <input
                             type="number" id="credits" name="credits" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            min="0" required value={credits} onChange={(e) => setCredits(e.target.value)}
+                            min="0" required
+                            placeholder="1-30"
+                            value={credits} onChange={(e) => setCredits(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="startdate" className={`block text-sm font-medium ${text}`}>Start Date:</label>
-                        <input
-                            type="date" id="startdate" name="startdate" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            required value={startDate} onChange={(e) => setStartDate(e.target.value)}
-                        />
+                        <input type="date"
+                               id="startdate"
+                               name="startdate"
+                               className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                               required
+                               value={startDate}
+                               onChange={(e) => {
+                                   setStartDate(e.target.value);
+                                   if (dateError) setDateError('');
+                               }}/>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="enddate" className={`block text-sm font-medium ${text}`}>End Date:</label>
                         <input
-                            type="date" id="enddate" name="enddate" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            required value={endDate} onChange={(e) => setEndDate(e.target.value)}
+                            type="date"
+                            id="enddate"
+                            name="enddate"
+                            className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                            required
+                            value={endDate}
+                            onChange={(e) => {
+                                setEndDate(e.target.value);
+                                if (dateError) setDateError('');
+                            }}
                         />
                     </div>
 
-                    <div className="flex space-x-4">
-                        <button type="button" onClick={handleGoBack} className={`px-6 py-2 rounded-md ${theme === 'light' ? 'bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200' : 'bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700'} transition-colors`}>
-                            Cancel
-                        </button>
-                        <button type="submit" className={`px-6 py-2 rounded-md ${accentBg} ${theme === 'light' ? 'text-light-bg' : 'text-dark-bg'} hover:bg-[#7b2cbf] transition-colors font-medium`}>
+
+                    <div className="flex justify-between">
+                        <button type="submit"
+                                className={`px-6 py-2 rounded-md ${accentBg} ${theme === 'light' ? 'text-light-bg' : 'text-dark-bg'} hover:bg-[#7b2cbf] transition-colors font-medium`}>
                             Submit
                         </button>
+                        <button type="button" onClick={handleGoBack}
+                                className={`px-6 py-2 rounded-md ${theme === 'light' ? 'bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200' : 'bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700'} transition-colors`}>
+                            Cancel
+                        </button>
+
                     </div>
                     {error && <p className={`mt-4 ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>{error}</p>}
                     {message && <p className={`mt-4 ${theme === 'light' ? 'text-green-700' : 'text-green-400'}`}>{message}</p>}

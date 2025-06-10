@@ -73,6 +73,7 @@ export default function ModuleDetails() {
         return <div className="p-6 text-red-600">Error: {error}</div>;
 
     return (
+        <div className ="relative">
         <div className={`min-h-screen ${bg} ${text} p-6`}>
             <button
                 onClick={() => navigate(-1)}
@@ -83,7 +84,7 @@ export default function ModuleDetails() {
 
             <button
                 onClick={() => navigate(`/courses/${courseId}/modules/${moduleId}/ModulesEdit`)}
-                className="flex items-center rounded-lg p-6 shadow-md text-purple-600 hover:text-purple-800 hover:scale-105 hover:shadow-lg border border-gray-200"
+                className="absolute top-5  right-20 rounded-lg p-2 shadow-md text-purple-600 hover:text-purple-800 hover:scale-105 hover:shadow-lg border border-gray-200"
             >
                 Edit Modules
             </button>
@@ -135,6 +136,7 @@ export default function ModuleDetails() {
                         </ul>
                     )}
                 </div>
+            </div>
             </div>
         </div>
     );
