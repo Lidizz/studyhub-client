@@ -12,8 +12,20 @@ export const CourseAssignment = () => {
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [course, setCourse] = useState(null);
   const { theme } = useSelector((state) => state.theme);
   const { bg, text, border, hoverBg } = themeConfig[theme];
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/courses/${courseId}`)
+        .then((response) => {
+          setCourse(response.data);
+        })
+        .catch((err) => {
+          console.error("Error fetching course:", err);
+        });
+  }, [courseId]);
+
 
   useEffect(() => {
     setLoading(true);
@@ -24,10 +36,16 @@ export const CourseAssignment = () => {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message || "Assignments not found");
+        if (err.response?.status === 404) {
+          setAssignments([]);
+          setError(null);
+        } else {
+          setError(err.message || "Assignments not found");
+        }
         setLoading(false);
       });
-  }, [courseId]);
+
+  },[courseId]);
 
   if (loading)
     return <div className={`p-6 ${text}`}>Loading assignments...</div>;
@@ -59,7 +77,7 @@ export const CourseAssignment = () => {
             Back to Course
           </button>
         </div>
-        <h1 className="text-3xl font-bold mb-4">Assignments for {courseId}</h1>
+        <h1 className="text-3xl font-bold mb-4">Assignments for {course?.name || course?.title || `Course ${courseId}`} </h1>
         {assignments.length === 0 ? (
           <div className={`text-center py-8 ${text}`}>
             No assignments available.

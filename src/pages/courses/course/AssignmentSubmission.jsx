@@ -65,6 +65,7 @@ const AssignmentSubmission = () => {
 
   useEffect(() => {
     if (courseId) {
+      setError(null);
       fetchAssignments();
     }
   }, [courseId]);
@@ -97,19 +98,28 @@ const AssignmentSubmission = () => {
           setLoading(false);
         })
         .catch((err) => {
-          setError(err.message || "Assignment not found");
+          if (err.response?.status === 404) {
+            setError("Assignment not found");
+          } else {
+            setError(err.message || "Assignment loading failed");
+
+          }
           setLoading(false);
+
         });
     }
   }, [courseId, assignmentId, assignment]);
 
   const fetchAssignments = async () => {
     setLoading(true);
+    setError(null);
+    setAssignments([]);
     try {
       const response = await axios.get(
         `http://localhost:8080/api/courses/${courseId}/assignments`,
       );
       setAssignments(response.data);
+      setError(null);
 
       if (userRole === "STUDENT" && studentId) {
         await fetchSubmissions();
@@ -117,9 +127,17 @@ const AssignmentSubmission = () => {
         await fetchCourseSubmissions();
       }
       setLoading(false);
+
     } catch (err) {
-      setError(err.message || "Assignment not found");
+      if (err.response?.status === 404) {
+        setAssignments([]);
+        setError(null);
+      } else {
+        setError(err.message || "Assignment not found");
+
+      }
       setLoading(false);
+
     }
   };
 
@@ -415,7 +433,7 @@ const AssignmentSubmission = () => {
 
   if (loading)
     return <div className={`p-6 ${bg} ${text}`}>Loading assignment...</div>;
-  if (error && userRole === "STUDENT")
+  if (error && assignmentId)
     return <div className={`p-6 text-red-600 ${bg}`}>Error: {error}</div>;
   if (!assignment && assignmentId && userRole === "STUDENT")
     return <div className={`p-6 ${bg} ${text}`}>Assignment not found!</div>;

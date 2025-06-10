@@ -23,11 +23,9 @@ export const CourseModules = () => {
       .get(`http://localhost:8080/api/courses/${courseId}`)
       .then((response) => {
         setCourse(response.data);
-        setLoading(false);
       })
       .catch((err) => {
-        setError(err.message || "Course not found");
-        setLoading(false);
+        console.error("Error fetching course:", err);
       });
   }, [courseId]);
 
@@ -40,10 +38,15 @@ export const CourseModules = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching modules:", err);
-        setError("Error fetching modules");
+        if (err.response?.status === 404) {
+          setModules([]);
+          setError(null);
+        } else {
+          setError("Error fetching modules");
+        }
         setLoading(false);
       });
+
   }, [courseId]);
 
   if (loading) return <p>Loading...</p>;
@@ -82,7 +85,10 @@ export const CourseModules = () => {
           </h1>
         )}
         <div className="grid grid-cols-1 gap-6">
-          {modules.length === 0 && <p>No modules available.</p>}
+          { modules.length === 0 && ( <div className={`text-center py-8 ${text}`}>
+                No modules available.
+              </div>
+          )}
           {modules.map((module) => (
             <div
               key={module.id}
