@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'lucide-react';
-import { API_BASE_URL } from '../config';
 import {themeConfig} from "../themeConfig.js";
 import {iconColors} from "../utils/styles.js";
 
@@ -25,7 +24,7 @@ const Login = () => {
         e.preventDefault();
         setError('');
         try {
-            const response = await axios.post(`${API_BASE_URL}/login`, formData);
+            const response = await axios.post(`http://localhost:8080/api/users/login`, formData);
             localStorage.setItem('user', JSON.stringify(response.data));
             navigate('/dashboard');
         } catch (err) {

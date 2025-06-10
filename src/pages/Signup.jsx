@@ -4,7 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'lucide-react';
 import { iconColors } from '../utils/styles';
-import { API_BASE_URL } from '../config';
 import {themeConfig} from "../themeConfig.js";
 
 const Signup = () => {
@@ -30,7 +29,7 @@ const Signup = () => {
             return;
         }
         try {
-            await axios.post(`${API_BASE_URL}/register`, {
+            await axios.post(`http://localhost:8080/api/users/register`, {
                 email: formData.email,
                 firstName: formData.firstName,
                 lastName: formData.lastName,

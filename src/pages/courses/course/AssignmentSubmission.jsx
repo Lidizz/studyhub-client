@@ -888,7 +888,7 @@ const AssignmentSubmission = () => {
                                         className={`w-full px-3 py-2 border ${border} rounded-md ${
                                             theme === "light" ? "bg-white" : "bg-gray-800"
                                         } ${text} focus:outline-none focus:ring-2 focus:ring-purple-500`}
-                                        placeholder="Enter grade (e.g., A, B+, 85, etc.)"
+                                        placeholder="Enter grade (A, B, C, D, E, F)"
                                     />
                                 </div>
 
