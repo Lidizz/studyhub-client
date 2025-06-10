@@ -112,9 +112,9 @@ const AssignmentSubmission = () => {
       setAssignments(response.data);
 
       if (userRole === "STUDENT" && studentId) {
-        fetchSubmissions();
+        await fetchSubmissions();
       } else if (userRole === "INSTRUCTOR") {
-        fetchCourseSubmissions();
+        await fetchCourseSubmissions();
       }
       setLoading(false);
     } catch (err) {
