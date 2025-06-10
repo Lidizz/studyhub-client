@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { themeConfig } from "../../../themeConfig";
 import { iconColors } from "../../../utils/styles";
-import {getAssignmentsByCourse, createAssignment, submitAssignment, getSubmissionsByStudent, getSubmissionsByAssignment, updateAssignment, deleteAssignment} from '../../../services/api';
+
 
 const AssignmentSubmission = () => {
     const {courseId, assignmentId} = useParams();
@@ -96,7 +96,7 @@ const AssignmentSubmission = () => {
     const fetchAssignments = async () => {
         setLoading(true);
         try {
-            const response = await getAssignmentsByCourse(courseId);
+            const response = await axios.get(`http://localhost:8080/api/courses/${courseId}/assignments`);
             setAssignments(response.data);
 
             if (userRole === 'STUDENT' && studentId) {
@@ -113,7 +113,7 @@ const AssignmentSubmission = () => {
 
     const fetchSubmissions = async () => {
         try {
-            const response = await getSubmissionsByStudent(courseId, studentId);
+            const response = await axios.get(`http://localhost:8080/api/courses/${courseId}/submissions/student/${studentId}`);
             setSubmissions(response.data);
 
             if (assignmentId) {
@@ -147,7 +147,7 @@ const AssignmentSubmission = () => {
     const fetchCourseSubmissions = async () => {
         try {
             if (assignmentId) {
-                const response = await getSubmissionsByAssignment(courseId, assignmentId);
+                const response = await axios.get(`http://localhost:8080/api/courses/${courseId}/submissions/${assignmentId}/submissions`);
                 setCourseSubmissions(response.data);
             } else {
                 setCourseSubmissions([]);
@@ -192,7 +192,17 @@ const AssignmentSubmission = () => {
                 return;
             }
 
-            await submitAssignment(courseId, assignmentId, studentId, file);
+            const formData = new FormData();
+            formData.append('file', file);
+
+            await axios.post(
+                `http://localhost:8080/api/courses/${courseId}/submissions/${assignmentId}/student/${studentId}`,
+                formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+            );
+
             alert('Assignment submitted successfully!');
 
             setSubmissionData(prev => ({
@@ -245,7 +255,7 @@ const AssignmentSubmission = () => {
         e.preventDefault();
 
         try {
-            await createAssignment(courseId, newAssignment);
+            await axios.post(`http://localhost:8080/api/courses/${courseId}/assignments`, newAssignment);
             alert('Assignment created successfully!');
             setNewAssignment({courseId: courseId, title: '', description: '', dueDate: ''});
             fetchAssignments();
@@ -274,7 +284,7 @@ const AssignmentSubmission = () => {
         e.preventDefault();
 
         try {
-            await updateAssignment(editAssignment.courseId, editAssignment.id, newAssignment);
+            await axios.put(`http://localhost:8080/api/courses/${editAssignment.courseId}/assignments/${editAssignment.id}`, newAssignment);
             alert('Assignment updated successfully!');
             setNewAssignment({courseId: courseId, title: '', description: '', dueDate: ''});
             setEditAssignment(null);
@@ -287,7 +297,7 @@ const AssignmentSubmission = () => {
 
     const handleDeleteAssignment = async (assignmentId) => {
         try {
-            await deleteAssignment(courseId, assignmentId);
+            await axios.delete(`http://localhost:8080/api/courses/${courseId}/assignments/${assignmentId}`);
             alert('Assignment deleted successfully!');
             setShowDeleteConfirm(null);
             fetchAssignments();
