@@ -100,12 +100,6 @@ export default function ModuleDetails() {
 
             <div className={`bg-white p-6 rounded-lg shadow-md border max-w-2xl ${border}`}>
                 <h1 className="text-2xl font-bold mb-4">{module.title}</h1>
-                <p className="mb-2 text-gray-600">
-                    <strong>Description:</strong> {module.description}
-                </p>
-                <p className="mb-2 text-gray-600">
-                    <strong>Module No:</strong> {module.moduleNumber}
-                </p>
 
                 <div className="mt-6">
                     <h2 className="text-xl font-bold mb-2 text-gray-600">Resources</h2>

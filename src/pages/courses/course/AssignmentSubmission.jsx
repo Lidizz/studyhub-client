@@ -481,27 +481,6 @@ const AssignmentSubmission = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className={`block text-sm font-medium ${text}`}>
-                    Your Answer
-                  </label>
-                  <textarea
-                    value={submissionForm.text}
-                    onChange={(e) =>
-                      setSubmissionForm((prev) => ({
-                        ...prev,
-                        text: e.target.value,
-                      }))
-                    }
-                    className={`w-full px-4 py-2 rounded-md border ${
-                      theme === "light"
-                        ? "bg-light-bg border-light-accent"
-                        : "bg-dark-bg border-dark-accent"
-                    } ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                    rows="6"
-                    placeholder="Type your answer..."
-                  />
-                </div>
-                <div>
-                  <label className={`block text-sm font-medium ${text}`}>
                     Upload Your File
                   </label>
                   <div className="flex items-center gap-4">
@@ -556,17 +535,17 @@ const AssignmentSubmission = () => {
                   </p>
                 </div>
                 <div className="flex items-center justify-end gap-4">
-                  <button
-                    type="button"
-                    onClick={handleGoBack}
-                    className={`px-6 py-2 rounded-lg ${
-                      theme === "light"
-                        ? "border-gray-300 text-[#9333ea] hover:bg-gray-200"
-                        : "border-gray-600 text-[#f9fafb] hover:bg-gray-700"
-                    }`}
-                  >
-                    Cancel
-                  </button>
+                  {/*<button*/}
+                  {/*  type="button"*/}
+                  {/*  onClick={handleGoBack}*/}
+                  {/*  className={`px-6 py-2 rounded-lg ${*/}
+                  {/*    theme === "light"*/}
+                  {/*      ? "border-gray-300 text-[#9333ea] hover:bg-gray-200"*/}
+                  {/*      : "border-gray-600 text-[#f9fafb] hover:bg-gray-700"*/}
+                  {/*  }`}*/}
+                  {/*>*/}
+                  {/*  Cancel*/}
+                  {/*</button>*/}
                   <button
                     type="submit"
                     className={`px-6 py-2 rounded-md ${accentBg} ${
@@ -588,7 +567,12 @@ const AssignmentSubmission = () => {
                   } border`}
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    <span
+                        className="icon-wrapper"
+                          style={{ "--icon-color": iconColors[theme] }}
+                    >
+                      <CheckCircle size={18} className={`mr-2 ${text}`} />
+                    </span>
                     <h3
                       className={`font-semibold ${
                         theme === "light" ? "text-green-800" : "text-green-400"
@@ -602,7 +586,7 @@ const AssignmentSubmission = () => {
                       theme === "light" ? "text-green-700" : "text-green-300"
                     }`}
                   >
-                    <p className="mb-2">Your submission has been recorded:</p>
+                    {/*<p className="mb-2">Your submission has been recorded:</p>*/}
                     <div
                       className={`p-3 rounded ${
                         theme === "light"
@@ -611,7 +595,12 @@ const AssignmentSubmission = () => {
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <Upload className="w-4 h-4" />
+                        <span
+                            className="icon-wrapper"
+                            style={{ "--icon-color": iconColors[theme] }}
+                        >
+                          <Upload size={18} className={`mr-2 ${text}`} />
+                        </span>
                         <span className="font-medium">Uploaded File:</span>
                         <span
                           className={`${
