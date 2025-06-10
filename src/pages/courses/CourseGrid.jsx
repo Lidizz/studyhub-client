@@ -14,7 +14,7 @@ const CourseGrid = () => {
     const userId = user?.id;
     const userRole = user?.role;
     const {theme} = useSelector((state) => state.theme);
-    const {bg, text} = themeConfig[theme];
+    const {bg, text, accentBg } = themeConfig[theme];
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -59,8 +59,7 @@ const CourseGrid = () => {
 
             <button
                 onClick={() => navigate(`/courses/create`)}
-                className={`absolute top-10 right-20 z-50 px-4 py-2 rounded-md bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors`}
-            >
+                className={`absolute top-10 right-20 z-50 px-5 py-2 rounded-md ${accentBg} ${theme === 'light' ? 'text-light-bg' : 'text-dark-bg'} hover:bg-[#7b2cbf] transition-colors`}            >
                 Create Course
             </button>
 

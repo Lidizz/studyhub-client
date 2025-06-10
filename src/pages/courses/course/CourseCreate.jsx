@@ -20,10 +20,27 @@ const CourseCreate = () => {
     const [endDate, setEndDate] = React.useState('');
     const [message, setMessage] = React.useState('');
     const [error, setError] = React.useState('');
+    const [dateError, setDateError] = React.useState('');
 
+    // Date validation function
+    const validateDates = () => {
+        if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
+            setDateError('End date must be later than start date');
+            return false;
+        }
+        setDateError('');
+        return true;
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // Validate dates before submission
+        if (!validateDates()) {
+            alert('End date must be later than start date. Please adjust your dates.');
+            return; // Prevent form submission
+        }
+
         try {
             await axios.post(`http://localhost:8080/api/courses`, {
                 code,
@@ -34,18 +51,21 @@ const CourseCreate = () => {
                 startDate,
                 endDate,
             });
-           setCode('');
-           setTitle('');
-           setDepartment('');
-           setDescription('');
-           setCredits('');
-           setStartDate('');
-           setEndDate('');
-           setMessage('Course  created');
-           setError('');
+            setCode('');
+            setTitle('');
+            setDepartment('');
+            setDescription('');
+            setCredits('');
+            setStartDate('');
+            setEndDate('');
+            setMessage('Course  created');
+            setError('');
+            setDateError('');
 
         } catch (err) {
-            setError('Could not create course'); setMessage(''); console.error(err);
+            setError('Could not create course');
+            setMessage('');
+            console.error(err);
         }
     };
 
@@ -73,7 +93,6 @@ const CourseCreate = () => {
                             required value={code} onChange={(e) => setCode(e.target.value)}
                         />
                     </div>
-
 
                     <div className="mb-4">
                         <label htmlFor="title" className={`block text-sm font-medium ${text}`}>Title (4 characters):</label>
@@ -106,19 +125,42 @@ const CourseCreate = () => {
                     <div className="mb-4">
                         <label htmlFor="startdate" className={`block text-sm font-medium ${text}`}>Start Date:</label>
                         <input
-                            type="date" id="startdate" name="startdate" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                            required value={startDate} onChange={(e) => setStartDate(e.target.value)}
+                            type="date"
+                            id="startdate"
+                            name="startdate"
+                            className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                            required
+                            value={startDate}
+                            onChange={(e) => {
+                                setStartDate(e.target.value);
+                                // Clear date error when user changes dates
+                                if (dateError) setDateError('');
+                            }}
                         />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="enddate" className={`block text-sm font-medium ${text}`}>End Date:</label>
                         <input
-                            type="date" id="enddate" name="enddate" className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
-                             required value={endDate} onChange={(e) => setEndDate(e.target.value)}
+                            type="date"
+                            id="enddate"
+                            name="enddate"
+                            className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+                            required
+                            value={endDate}
+                            onChange={(e) => {
+                                setEndDate(e.target.value);
+                                if (dateError) setDateError('');
+                            }}
                         />
                     </div>
 
-                    <div className="flex space-x-4">
+                    {dateError && (
+                        <div className={`mb-4 text-sm ${theme === 'light' ? 'text-red-600' : 'text-red-400'}`}>
+                            {dateError}
+                        </div>
+                    )}
+
+                    <div className="flex space-x-4 ">
                         <button type="button" onClick={handleGoBack} className={`px-6 py-2 rounded-md ${theme === 'light' ? 'bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200' : 'bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700'} transition-colors`}>
                             Cancel
                         </button>
