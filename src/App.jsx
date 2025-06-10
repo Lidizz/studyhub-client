@@ -19,6 +19,7 @@ import CourseCreate from './pages/courses/course/CourseCreate.jsx';
 import CourseEdit from './pages/courses/course/CourseEdit.jsx';
 import ResourceCreate from "./pages/courses/course/ResourceCreate.jsx";
 import ModulesEdit from './pages/courses/course/ModulesEdit.jsx';
+import ResourceUpdate from './pages/courses/course/ResourceUpdate.jsx';
 
 const LoggedInLayout = ({ children }) => {
     const { theme } = useSelector((state) => state.theme);
@@ -96,6 +97,9 @@ function App() {
                 />
                 <Route path="/courses/:courseId/modules/:moduleId/ModulesEdit"
                        element={<LoggedInLayout><ModulesEdit /></LoggedInLayout>}
+                />
+                <Route path="/courses/:courseId/modules/:moduleId/resources/:resourceId/ResourceUpdate"
+                       element={<LoggedInLayout><ResourceUpdate /></LoggedInLayout>}
                 />
                 <Route
                     path="/course/:courseId/assignments"

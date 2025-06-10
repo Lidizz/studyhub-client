@@ -52,6 +52,16 @@ export default function ModuleDetails() {
         }
     };
 
+    const deleteResource = async (resId) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/modules/${moduleId}/resources/${resId}`);
+            alert('Resource deleted successfully.');
+            window.location.reload();
+        } catch (err) {
+            alert("Error:" + err.message);
+        }
+    };
+
 
     if (loadingModule || loadingResources)
         return <div className="p-6">Loading module...</div>;
@@ -126,10 +136,17 @@ export default function ModuleDetails() {
                                             Download resource
                                         </button>
                                     ) : (
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            No resources found.
-                                        </p>
+                                        <>
+                                        <button className='text-blue-400 hover:text-purple-800 flex items-center'
+                                                onClick={() => navigate(`/courses/${courseId}/modules/${moduleId}/resources/${res.id}/ResourceUpdate`)}>
+                                            Edit Resource
+                                        </button>
+                                        </>
                                     )}
+                                    <button className='text-orange-400 hover:text-red-800 flex items-center'
+                                            onClick={() => deleteResource(res.id)}
+                                            >Delete Resource
+                                    </button>
                                 </li>
                             ))}
                         </ul>
