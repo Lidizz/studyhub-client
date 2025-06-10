@@ -50,11 +50,15 @@ export const CourseModules = () => {
   if (error) return <p>{error}</p>;
 
   const handleGoBack = () => navigate(`/course/${courseId}`);
+  const handleCourseClick2 = () => navigate(`/courses/${id}/ResourceUpdate`);
+
 
   return (
     <div className={`relative min-h-screen ${bg} ${text}`}>
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex justify-between items-center mb-4">
+
+
           <button
             onClick={handleGoBack}
             className={`flex items-center ${theme === "light" ? "text-[#9333ea] hover:text-[#7b2cbf]" : "text-[#f9fafb] hover:text-[#d8b4fe]"}`}
@@ -75,6 +79,7 @@ export const CourseModules = () => {
           >
             Create Module
           </button>
+
         </div>
         {course && ( // Conditionally render this section
           <h1 className="text-3xl font-bold mb-4">
@@ -91,16 +96,29 @@ export const CourseModules = () => {
                 navigate(`/courses/${courseId}/modules/${module.id}`)
               }
             >
+              <div className="relative w-full">
+              <button
+                  onClick={handleCourseClick2}
+                  className="absolute top-2 right-2 bg-blue-500 hover bg-blue-600 text-white rounded px-2 py-1 text-sm shadow"
+              >
+                Edit
+              </button>
               <h3 className={`text-xl font-bold ${text}`}>{module.title}</h3>
               <p className={`text-sm ${text}`}>
                 {module.description || "Info in module"}
               </p>
+              </div>
             </div>
+
           ))}
-        </div>
+
+         </div>
+       </div>
+
       </div>
-    </div>
   );
-};
+
+    };
+
 
 export default CourseModules;

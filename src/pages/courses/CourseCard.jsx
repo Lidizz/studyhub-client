@@ -18,7 +18,7 @@ const CourseCard = ({ id, title, department, credits }) => {
     <div className="relative w-full">
       <button
         onClick={handleCourseClick2}
-        className="absolute top-2 right-2 bg-blue-500 text-white rounded px-2 py-1 text-sm shadow"
+        className="absolute top-2 right-2 bg-blue-500 hover bg-blue-600 text-white rounded px-2 py-1 text-sm shadow"
       >
         Edit
       </button>
