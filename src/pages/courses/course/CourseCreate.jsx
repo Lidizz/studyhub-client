@@ -106,7 +106,7 @@ const CourseCreate = () => {
                             type="text"
                             id="title"
                             name="title"
-                            placeholder="Enter course title (minimum 4 characters)"
+                            placeholder="Enter course title (min. 4 characters)"
                             className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                             required
                             value={title}
@@ -119,7 +119,7 @@ const CourseCreate = () => {
                             type="text"
                             id="department"
                             name="department"
-                            placeholder="Enter department name (minimum 2 characters)"
+                            placeholder="Enter department name (min. 2 characters)"
                             className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                             required
                             value={department}
@@ -145,7 +145,7 @@ const CourseCreate = () => {
                             type="number"
                             id="credits"
                             name="credits"
-                            placeholder="Enter number of credits (minimum 1)"
+                            placeholder="Enter number of credits (between 1-30)"
                             className={`w-full px-4 py-2 rounded-md border ${theme === 'light' ? 'bg-light-bg border-light-accent' : 'bg-dark-bg border-dark-accent'} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
                             min="0"
                             required

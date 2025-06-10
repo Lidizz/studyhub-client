@@ -20,16 +20,13 @@ const ModulesEdit = () => {
     const {moduleId} = useParams();
     const [type, setType] = React.useState('update');
 
-    // console.log(moduleId);
-
     useEffect(() => {
         if (!moduleId) return;
 
         axios.get(`http://localhost:8080/api/modules/${moduleId}/resources`)
             .then((res) => {
-                // If the response is an array of resources, pick the first one or map as needed
                 if (Array.isArray(res.data) && res.data.length > 0) {
-                    setResourceId(res.data[0].id); // or use appropriate property
+                    setResourceId(res.data[0].id);
                 } else {
                     setResourceId('');
                     setError("No resource found for module");

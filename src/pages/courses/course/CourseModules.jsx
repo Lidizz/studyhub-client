@@ -15,6 +15,23 @@ export const CourseModules = () => {
     const { theme } = useSelector((state) => state.theme);
     const { bg, text, border, accentBg, hoverBg } = themeConfig[theme];
 
+    const [course, setCourse] = useState(null);
+
+    useEffect(() => {
+        setLoading(true);
+        axios
+            .get(`http://localhost:8080/api/courses/${courseId}`)
+            .then((response) => {
+                setCourse(response.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message || "Course not found");
+                setLoading(false);
+            });
+    }, [courseId]);
+
+
     useEffect(() => {
         setLoading(true);
         axios.get(`http://localhost:8080/api/courses/${courseId}/modules`)
@@ -48,7 +65,9 @@ export const CourseModules = () => {
                         Create Module
                     </button>
                 </div>
-                <h1 className="text-3xl font-bold mb-4">Modules for {courseId}</h1>
+                {course && (  // Conditionally render this section
+                    <h1 className="text-3xl font-bold mb-4">Modules for {course.title}</h1>
+                )}
                 <div className="grid grid-cols-1 gap-6">
                     {modules.length === 0 && <p>No modules available.</p>}
                     {modules.map((module) => (
