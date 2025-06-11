@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { themeConfig } from "../../../themeConfig";
 import { iconColors } from "../../../utils/styles";
 
-export const CourseAssignment = () => {
+const CourseAssignment = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const [assignments, setAssignments] = useState([]);

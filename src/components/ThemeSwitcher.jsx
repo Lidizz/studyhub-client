@@ -6,9 +6,9 @@ import { themeConfig } from "../themeConfig";
 const themes = [
   { name: "light", label: "Light ☀️" },
   { name: "dark", label: "Dark 🌙" },
-  { name: "ocean", label: "Ocean 🌊" },
-  { name: "forest", label: "Forest 🌲" },
-  { name: "sunset", label: "Sunset 🌅" },
+  // { name: "ocean", label: "Ocean 🌊" },
+  // { name: "forest", label: "Forest 🌲" },
+  // { name: "sunset", label: "Sunset 🌅" },
 ];
 
 const ThemeSwitcher = ({ className }) => {
