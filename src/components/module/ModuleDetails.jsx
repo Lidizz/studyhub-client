@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { themeConfig } from "../../themeConfig.js";
@@ -74,14 +74,6 @@ const ModuleDetails = () => {
     return (
       <>
         <div className="p-6 text-red-600">Error: {error}</div>
-        <button
-          onClick={() =>
-            navigate(`/courses/${courseId}/modules/${moduleId}/ResourceCreate`)
-          }
-          className="flex items-center rounded-lg p-6 shadow-md text-purple-600 hover:text-purple-800 hover:scale-105 hover:shadow-lg border border-gray-200"
-        >
-          Create Resource
-        </button>
       </>
     );
 
@@ -101,6 +93,16 @@ const ModuleDetails = () => {
         </span>
         Back to Modules
       </button>
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() =>
+            navigate(`/courses/${courseId}/modules/${moduleId}/ResourceCreate`)
+          }
+          className="text-sm px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 shadow"
+        >
+          Create Resource
+        </button>
+      </div>
       <div
         className={`bg-white p-6 rounded-lg shadow-md border max-w-2xl ${border}`}
       >
