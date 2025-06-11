@@ -80,7 +80,7 @@ const ModuleDetails = () => {
   return (
       <div className={`min-h-screen ${bg} ${text} p-6`}>
         <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/course/${courseId}/modules`)}
             className={`mb-4 flex items-center ${
                 theme === "light" ? "text-[#9333ea] hover:text-[#7b2cbf]" : "text-[#f9fafb] hover:text-[#d8b4fe]"
             }`}
