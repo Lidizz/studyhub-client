@@ -56,7 +56,7 @@ const ModulesEdit = () => {
       setModuleNumber("");
     } catch (error) {
       console.log(error);
-      setError("An error occurred");
+      setError("Title must be between 3 and 100 characters");
       setMessage("");
     }
   };
