@@ -32,10 +32,15 @@ const ModuleDetails = () => {
     setResources([]);
     setLoadingResources(true);
     axios
-      .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
-      .then((res) => setResources(res.data))
-      .catch(() => setError("Resource not found for module"))
-      .finally(() => setLoadingResources(false));
+        .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
+        .then((res) => setResources(res.data))
+        .catch(() => {
+          if (error.response?.status === 404) {
+            setError(null);
+            setResources([])
+          }
+        })
+        .finally(() => setLoadingResources(false));
   }, [moduleId]);
 
   const handleDownload = async (resId, fileName) => {
