@@ -116,10 +116,14 @@ const ModuleDetails = () => {
         </div>
       )}
       <div
-          className={`${theme === "light" ? "bg-white" : "bg-gray-800"}  rounded-lg p-8 shadow-md ${border} col-span-1 md:col-span-2 lg:col-span-3 mb-6`}
+        className={`${theme === "light" ? "bg-white" : "bg-gray-800"}  rounded-lg p-8 shadow-md ${border} col-span-1 md:col-span-2 lg:col-span-3 mb-6`}
       >
         <div className="mt-0">
-          <h2 className={`text-xl font-bold mb-2 {theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>Resources</h2>
+          <h2
+            className={`text-xl font-bold mb-2 {theme === "dark" ? "text-gray-300" : "text-gray-700"}`}
+          >
+            Resources
+          </h2>
 
           {resources.length === 0 ? (
             <p className="text-gray-500">No resources found.</p>
@@ -131,7 +135,9 @@ const ModuleDetails = () => {
                     <strong>{res.title}</strong>
                   </p>
                   {res.content && (
-                    <p className={`text - sm {theme === "dark" ? "text-gray-300" : "text-gray-700"} whitespace-pre-wrap mt-1`}>
+                    <p
+                      className={`text - sm {theme === "dark" ? "text-gray-300" : "text-gray-700"} whitespace-pre-wrap mt-1`}
+                    >
                       {res.content}
                     </p>
                   )}

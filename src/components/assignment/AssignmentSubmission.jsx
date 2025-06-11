@@ -465,7 +465,9 @@ const AssignmentSubmission = () => {
                   {assignment.description || "No description available"}{" "}
                 </p>
                 <div className="flex flex-wrap items-center gap-6 text-sm">
-                  <div className={`flex items-center ${theme === "light" ? "text-[#212121]" : "text-[#FAFAFA]"}`}>
+                  <div
+                    className={`flex items-center ${theme === "light" ? "text-[#212121]" : "text-[#FAFAFA]"}`}
+                  >
                     <span
                       className="icon-wrapper"
                       style={{ "--icon-color": iconColors[theme] }}
