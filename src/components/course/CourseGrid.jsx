@@ -24,6 +24,8 @@ const CourseGrid = () => {
     }
     let endpoint;
 
+    //
+
     if (userRole === "STUDENT") {
       endpoint = `http://localhost:8080/api/courses/student/${userId}/summary`;
     } else if (userRole === "INSTRUCTOR") {

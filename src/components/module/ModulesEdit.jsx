@@ -19,22 +19,6 @@ const ModulesEdit = () => {
   const [error, setError] = React.useState("");
   const [type, setType] = React.useState("update");
 
-  useEffect(() => {
-    if (!moduleId) return;
-
-    axios
-      .get(`http://localhost:8080/api/modules/${moduleId}`)
-      .then((res) => {
-        if (Array.isArray(res.data) && res.data.length > 0) {
-          setResourceId(res.data[0].id);
-        } else {
-          setResourceId("");
-          setError("No resource found for module");
-        }
-      })
-      .catch(() => setError("Failed to fetch module"));
-  }, [moduleId]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -61,13 +45,8 @@ const ModulesEdit = () => {
 
       if (type === "delete") {
         await axios.delete(
-          `http://localhost:8080/api/modules/${moduleId}/resources/${resourceId}`,
-        );
-
-        await axios.delete(
           `http://localhost:8080/api/courses/${courseId}/modules/${moduleId}`,
         );
-
         setMessage("Resource and module deleted");
         setError("");
       }

@@ -34,7 +34,12 @@ const ModuleDetails = () => {
     axios
       .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
       .then((res) => setResources(res.data))
-      .catch(() => setError("Resource not found for module"))
+      .catch(() => {
+        if (error.response?.status === 404) {
+          setError(null);
+          setResources([])
+        }
+      })
       .finally(() => setLoadingResources(false));
   }, [moduleId]);
 

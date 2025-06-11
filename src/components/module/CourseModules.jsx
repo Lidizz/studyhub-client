@@ -29,6 +29,7 @@ const CourseModules = () => {
         console.error("Error fetching course:", err);
       });
   }, [courseId]);
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -47,9 +48,13 @@ const CourseModules = () => {
         setLoading(false);
       });
   }, [courseId]);
+
   if (loading) return <p>Loading...</p>;
+
   if (error) return <p>{error}</p>;
+
   const handleGoBack = () => navigate(`/course/${courseId}`);
+
   return (
     <div className={`relative min-h-screen ${bg} ${text}`}>
       <div className="max-w-7xl mx-auto px-6 py-8">
