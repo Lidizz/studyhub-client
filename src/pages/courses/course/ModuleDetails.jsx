@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {ArrowLeft, BookOpen} from "lucide-react";
+import { ArrowLeft, BookOpen } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { themeConfig } from "../../../themeConfig";
-import {iconColors} from "../../../utils/styles.js";
+import { iconColors } from "../../../utils/styles.js";
 
-export default function ModuleDetails() {
+const ModuleDetails = () => {
   const { courseId, moduleId } = useParams();
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.theme);
@@ -93,13 +93,13 @@ export default function ModuleDetails() {
         onClick={() => navigate(-1)}
         className={`text-purple-600 hover:text-purple-800 mb-4 flex items-center ${theme === "light" ? "text-[#9333ea] hover:text-[#7b2cbf]" : "text-[#f9fafb] hover:text-[#d8b4fe]"}`}
       >
-          <span
-              className="icon-wrapper"
-              style={{ "--icon-color": iconColors[theme] }}
-          >
-              <ArrowLeft size={18} className={`mr-2 ${text}`} />
-          </span>
-          Back to Modules
+        <span
+          className="icon-wrapper"
+          style={{ "--icon-color": iconColors[theme] }}
+        >
+          <ArrowLeft size={18} className={`mr-2 ${text}`} />
+        </span>
+        Back to Modules
       </button>
       <div
         className={`bg-white p-6 rounded-lg shadow-md border max-w-2xl ${border}`}
@@ -164,4 +164,6 @@ export default function ModuleDetails() {
       </div>
     </div>
   );
-}
+};
+
+export default ModuleDetails;
