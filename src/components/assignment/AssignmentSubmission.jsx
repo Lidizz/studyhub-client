@@ -536,7 +536,7 @@ const AssignmentSubmission = () => {
                       Accepted formats: PDF, DOC, DOCX, ZIP, TXT (Max 10MB){" "}
                     </p>
                   </div>
-                  <div className="flex items-center justify-end gap-4">
+                  <div className="flex items-center justify gap-4">
                     {" "}
                     {/*<button*/} {/*  type="button"*/}{" "}
                     {/*  onClick={handleGoBack}*/}{" "}
