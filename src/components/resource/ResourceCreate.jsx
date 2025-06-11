@@ -87,22 +87,6 @@ const ResourceCreate = () => {
 
   return (
       <div className={`relative min-h-screen ${bg} ${text}`}>
-        <button
-            onClick={handleGoBack}
-            className={`absolute top-4 left-4 flex items-center space-x-2 ${
-                theme === "light"
-                    ? "text-[#9333ea] hover:text-[#7b2cbf]"
-                    : "text-[#f9fafb] hover:text-[#d8b4fe]"
-            }`}
-        >
-        <span
-            className="icon-wrapper"
-            style={{ "--icon-color": iconColors[theme] }}
-        >
-          <ArrowLeft size={18} className={`mr-2 ${text}`} />
-        </span>
-          Back to Modules
-        </button>
         <div className="max-w-2xl mx-auto px-6 py-8">
           <form
               onSubmit={resourceType === "TEXT" ? createResource : uploadResource}
