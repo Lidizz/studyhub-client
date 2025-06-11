@@ -385,7 +385,8 @@ const AssignmentSubmission = () => {
     } catch (err) {
       console.error("Error saving grade:", err);
       alert(
-        "Failed to save grade: " + (err.response?.data?.message || err.message),
+        "Failed to save grade:\n" +
+          "Please enter A, B, C, D, E or  F as a grade"/* + (err.response?.data?.message || err.message)*/,
       );
     }
   };
@@ -534,7 +535,7 @@ const AssignmentSubmission = () => {
                     Accepted formats: PDF, DOC, DOCX, ZIP, TXT (Max 10MB)
                   </p>
                 </div>
-                <div className="flex items-center justify-end gap-4">
+                <div className="flex items-center justify gap-4">
                   {/*<button*/}
                   {/*  type="button"*/}
                   {/*  onClick={handleGoBack}*/}
@@ -1012,6 +1013,17 @@ const AssignmentSubmission = () => {
                           </div>
                         </div>
                       ))}
+                      <button
+                          type="button"
+                          onClick={handleGoBack}
+                          className={`px-6 py-2 rounded-lg ${
+                              theme === "light"
+                                  ? "border-gray-300 text-[#9333ea] hover:bg-gray-200"
+                                  : "border-gray-600 text-[#f9fafb] hover:bg-gray-700"
+                          }`}
+                      >
+                        Cancel
+                      </button>
                     </div>
                   )}
                 </div>
