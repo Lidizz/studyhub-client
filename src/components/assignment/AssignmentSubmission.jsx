@@ -452,10 +452,10 @@ const AssignmentSubmission = () => {
           assignment && (
             <div className={`rounded-lg shadow-md ${border}`}>
               <div
-                className={`border-b ${theme === "light" ? "border-gray-200 bg-[#e0e7ff]" : "border-gray-700 bg-[#1e40af]"} p-6`}
+                className={`border-b rounded-lg ${theme === "light" ? "border-gray-200 bg-[#d8b4fe]" : "border-gray-700 bg-[#4c1d95]"} p-6`}
               >
                 <h1
-                  className={`text-2xl font-bold ${theme === "light" ? "text-[#4c1d95]" : "text-[#bfdbfe]"}`}
+                  className={`text-2xl font-bold ${theme === "light" ? "text-[#4c1d95]" : "text-[#d8b4fe]"}`}
                 >
                   {" "}
                   {assignment.title}{" "}
@@ -465,7 +465,7 @@ const AssignmentSubmission = () => {
                   {assignment.description || "No description available"}{" "}
                 </p>
                 <div className="flex flex-wrap items-center gap-6 text-sm">
-                  <div className="flex items-center text-gray-600">
+                  <div className={`flex items-center ${theme === "light" ? "text-[#212121]" : "text-[#FAFAFA]"}`}>
                     <span
                       className="icon-wrapper"
                       style={{ "--icon-color": iconColors[theme] }}
