@@ -3,8 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
 const ModulesEdit = () => {
   const { courseId, moduleId } = useParams();
@@ -18,22 +18,6 @@ const ModulesEdit = () => {
   const [message, setMessage] = React.useState("");
   const [error, setError] = React.useState("");
   const [type, setType] = React.useState("update");
-
-  useEffect(() => {
-    if (!moduleId) return;
-
-    axios
-      .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
-      .then((res) => {
-        if (Array.isArray(res.data) && res.data.length > 0) {
-          setResourceId(res.data[0].id);
-        } else {
-          setResourceId("");
-          setError("No resource found for module");
-        }
-      })
-      .catch(() => setError("Failed to fetch resource"));
-  }, [moduleId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,13 +45,8 @@ const ModulesEdit = () => {
 
       if (type === "delete") {
         await axios.delete(
-          `http://localhost:8080/api/modules/${moduleId}/resources/${resourceId}`,
-        );
-
-        await axios.delete(
           `http://localhost:8080/api/courses/${courseId}/modules/${moduleId}`,
         );
-
         setMessage("Resource and module deleted");
         setError("");
       }

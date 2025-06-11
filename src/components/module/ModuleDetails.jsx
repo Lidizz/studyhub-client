@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {ArrowLeft, BookOpen} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import {iconColors} from "../../../utils/styles.js";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
-export default function ModuleDetails() {
+const ModuleDetails = () => {
   const { courseId, moduleId } = useParams();
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.theme);
-  const { bg, text, border } = themeConfig[theme];
+  const { bg, text, border, accentBg } = themeConfig[theme];
   const [module, setModule] = useState(null);
   const [resources, setResources] = useState([]);
   const [loadingModule, setLoadingModule] = useState(true);
   const [loadingResources, setLoadingResources] = useState(true);
   const [error, setError] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userRole = user?.role;
 
   useEffect(() => {
     setLoadingModule(true);
@@ -32,7 +34,12 @@ export default function ModuleDetails() {
     axios
       .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
       .then((res) => setResources(res.data))
-      .catch(() => setError("Resource not found for module"))
+      .catch(() => {
+        if (error.response?.status === 404) {
+          setError(null);
+          setResources([]);
+        }
+      })
       .finally(() => setLoadingResources(false));
   }, [moduleId]);
 
@@ -56,56 +63,67 @@ export default function ModuleDetails() {
   };
 
   const deleteResource = async (resId) => {
-    try {
-      await axios.delete(
-        `http://localhost:8080/api/modules/${moduleId}/resources/${resId}`,
-      );
-      alert("Resource deleted successfully.");
-      window.location.reload();
-    } catch (err) {
-      alert("Error:" + err.message);
+    if (confirm("Are you sure you want to delete this resource?") === true) {
+      try {
+        await axios.delete(
+          `http://localhost:8080/api/modules/${moduleId}/resources/${resId}`,
+        );
+        alert("Resource deleted successfully.");
+        window.location.reload();
+      } catch (err) {
+        alert("Error:" + err.message);
+      }
     }
   };
 
   if (loadingModule || loadingResources)
     return <div className="p-6">Loading module...</div>;
 
-  if (error)
-    return (
-      <>
-        <div className="p-6 text-red-600">Error: {error}</div>
-        <button
-          onClick={() =>
-            navigate(`/courses/${courseId}/modules/${moduleId}/ResourceCreate`)
-          }
-          className="flex items-center rounded-lg p-6 shadow-md text-purple-600 hover:text-purple-800 hover:scale-105 hover:shadow-lg border border-gray-200"
-        >
-          Create Resource
-        </button>
-      </>
-    );
-
   if (error) return <div className="p-6 text-red-600">Error: {error}</div>;
 
   return (
     <div className={`min-h-screen ${bg} ${text} p-6`}>
       <button
-        onClick={() => navigate(-1)}
-        className={`text-purple-600 hover:text-purple-800 mb-4 flex items-center ${theme === "light" ? "text-[#9333ea] hover:text-[#7b2cbf]" : "text-[#f9fafb] hover:text-[#d8b4fe]"}`}
+        onClick={() => navigate(`/course/${courseId}/modules`)}
+        className={`mb-4 flex items-center ${
+          theme === "light"
+            ? "text-[#9333ea] hover:text-[#7b2cbf]"
+            : "text-[#f9fafb] hover:text-[#d8b4fe]"
+        }`}
       >
-          <span
-              className="icon-wrapper"
-              style={{ "--icon-color": iconColors[theme] }}
-          >
-              <ArrowLeft size={18} className={`mr-2 ${text}`} />
-          </span>
-          Back to Modules
+        <span
+          className="icon-wrapper"
+          style={{ "--icon-color": iconColors[theme] }}
+        >
+          <ArrowLeft size={18} className={`mr-2 ${text}`} />
+        </span>
+        Back to Modules
       </button>
+      {(userRole === "INSTRUCTOR" || userRole === "ADMIN") && (
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={() =>
+              navigate(
+                `/courses/${courseId}/modules/${moduleId}/ResourceCreate`,
+              )
+            }
+            className={`px-6 py-2 rounded-md ${accentBg} ${
+              theme === "light" ? "text-light-bg" : "text-dark-bg"
+            } hover:bg-[#7b2cbf] transition-colors`}
+          >
+            Create Resource
+          </button>
+        </div>
+      )}
       <div
-        className={`bg-white p-6 rounded-lg shadow-md border max-w-2xl ${border}`}
+        className={`${theme === "light" ? "bg-white" : "bg-gray-800"}  rounded-lg p-8 shadow-md ${border} col-span-1 md:col-span-2 lg:col-span-3 mb-6`}
       >
         <div className="mt-0">
-          <h2 className="text-xl font-bold mb-2 text-gray-600">Resources</h2>
+          <h2
+            className={`text-xl font-bold mb-2 {theme === "dark" ? "text-gray-300" : "text-gray-700"}`}
+          >
+            Resources
+          </h2>
 
           {resources.length === 0 ? (
             <p className="text-gray-500">No resources found.</p>
@@ -117,7 +135,9 @@ export default function ModuleDetails() {
                     <strong>{res.title}</strong>
                   </p>
                   {res.content && (
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap mt-1">
+                    <p
+                      className={`text - sm {theme === "dark" ? "text-gray-300" : "text-gray-700"} whitespace-pre-wrap mt-1`}
+                    >
                       {res.content}
                     </p>
                   )}
@@ -132,30 +152,32 @@ export default function ModuleDetails() {
                       onClick={() =>
                         handleDownload(res.id, res.originalFileName)
                       }
-                      className="text-blue-400 hover:text-purple-800 flex items-center"
+                      className="text-blue-600 hover:text-blue-800 flex items-center"
                     >
-                      Download resource
+                      Download Resource
                     </button>
                   ) : (
-                    <>
+                    (userRole === "INSTRUCTOR" || userRole === "ADMIN") && (
                       <button
-                        className="text-blue-400 hover:text-purple-800 flex items-center"
+                        className="text-blue-600 hover:text-blue-800 flex items-center"
                         onClick={() =>
                           navigate(
                             `/courses/${courseId}/modules/${moduleId}/resources/${res.id}/ResourceUpdate`,
                           )
                         }
                       >
-                        Edit Resource
+                        Update Resource
                       </button>
-                    </>
+                    )
                   )}
-                  <button
-                    className="text-orange-400 hover:text-red-800 flex items-center"
-                    onClick={() => deleteResource(res.id)}
-                  >
-                    Delete Resource
-                  </button>
+                  {(userRole === "INSTRUCTOR" || userRole === "ADMIN") && (
+                    <button
+                      className="text-red-600 hover:text-red-800 flex items-center"
+                      onClick={() => deleteResource(res.id)}
+                    >
+                      Delete Resource
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
@@ -164,4 +186,6 @@ export default function ModuleDetails() {
       </div>
     </div>
   );
-}
+};
+
+export default ModuleDetails;

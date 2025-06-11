@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, BookOpen, ClipboardList } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
 const CourseHome = () => {
   const { courseId } = useParams();
@@ -59,7 +59,6 @@ const CourseHome = () => {
         </button>
 
         <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-        {/* Removed instructor line */}
 
         <div className="grid grid-cols-1 gap-6">
           <div

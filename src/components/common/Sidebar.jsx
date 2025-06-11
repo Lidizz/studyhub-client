@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Home, BookOpen, Calendar, Users } from "lucide-react";
-import { themeConfig } from "../themeConfig";
-import { iconColors } from "../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
 const Sidebar = () => {
   const navigate = useNavigate();

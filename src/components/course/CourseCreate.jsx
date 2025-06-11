@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
 const CourseCreate = () => {
   const navigate = useNavigate();
@@ -17,9 +17,14 @@ const CourseCreate = () => {
   const [credits, setCredits] = React.useState("");
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
+  const [instructorIds, setInstructorIds] = React.useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id;
   const [message, setMessage] = React.useState("");
   const [error, setError] = React.useState("");
   const [dateError, setDateError] = React.useState("");
+
+  // console.log(userId);
 
   // Date validation function
   const validateDates = () => {
@@ -51,6 +56,7 @@ const CourseCreate = () => {
         credits,
         startDate,
         endDate,
+        instructorIds: [user?.id],
       });
       setCode("");
       setTitle("");
@@ -59,6 +65,7 @@ const CourseCreate = () => {
       setCredits("");
       setStartDate("");
       setEndDate("");
+      setInstructorIds([user?.id]);
       setMessage("Course  created");
       setError("");
       setDateError("");

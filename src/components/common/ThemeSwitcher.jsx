@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setTheme } from "../store/themeSlice";
-import { themeConfig } from "../themeConfig";
+import { setTheme } from "../../store/themeSlice.js";
+import { themeConfig } from "../../themeConfig.js";
 
 const themes = [
   { name: "light", label: "Light ☀️" },
   { name: "dark", label: "Dark 🌙" },
-  { name: "ocean", label: "Ocean 🌊" },
-  { name: "forest", label: "Forest 🌲" },
-  { name: "sunset", label: "Sunset 🌅" },
+  // { name: "ocean", label: "Ocean 🌊" },
+  // { name: "forest", label: "Forest 🌲" },
+  // { name: "sunset", label: "Sunset 🌅" },
 ];
 
 const ThemeSwitcher = ({ className }) => {
