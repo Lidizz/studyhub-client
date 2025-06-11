@@ -83,7 +83,7 @@ const CourseAssignment = () => {
               className={`px-6 py-2 rounded-md ${accentBg} ${theme === "light" ? "text-light-bg" : "text-dark-bg"} hover:bg-[#7b2cbf] transition-colors`}
             >
               {" "}
-               Create Assignment{" "}
+              Create Assignment{" "}
             </button>
           )}{" "}
         </div>

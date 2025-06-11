@@ -59,7 +59,6 @@ const CourseHome = () => {
         </button>
 
         <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-        {/* Removed instructor line */}
 
         <div className="grid grid-cols-1 gap-6">
           <div
