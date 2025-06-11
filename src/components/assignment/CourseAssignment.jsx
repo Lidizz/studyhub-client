@@ -14,7 +14,7 @@ const CourseAssignment = () => {
   const [error, setError] = useState(null);
   const [course, setCourse] = useState(null);
   const { theme } = useSelector((state) => state.theme);
-  const { bg, text, border, hoverBg } = themeConfig[theme];
+  const { bg, text, border, hoverBg, accentBg } = themeConfig[theme];
   const user = JSON.parse(localStorage.getItem("user"));
   const userRole = user?.role || "STUDENT";
   useEffect(() => {
@@ -80,9 +80,10 @@ const CourseAssignment = () => {
           {userRole === "INSTRUCTOR" && (
             <button
               onClick={handleCreateAssignment}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2"
+              className={`px-6 py-2 rounded-md ${accentBg} ${theme === "light" ? "text-light-bg" : "text-dark-bg"} hover:bg-[#7b2cbf] transition-colors`}
             >
-              <Plus className="w-4 h-4" /> Create Assignment{" "}
+              {" "}
+               Create Assignment{" "}
             </button>
           )}{" "}
         </div>
