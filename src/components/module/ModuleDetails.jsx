@@ -58,14 +58,16 @@ const ModuleDetails = () => {
   };
 
   const deleteResource = async (resId) => {
-    try {
-      await axios.delete(
-          `http://localhost:8080/api/modules/${moduleId}/resources/${resId}`,
-      );
-      alert("Resource deleted successfully.");
-      window.location.reload();
-    } catch (err) {
-      alert("Error:" + err.message);
+    if (confirm("Are you sure you want to delete this resource?") === true) {
+      try {
+        await axios.delete(
+            `http://localhost:8080/api/modules/${moduleId}/resources/${resId}`,
+        );
+        alert("Resource deleted successfully.");
+        window.location.reload();
+      } catch (err) {
+        alert("Error:" + err.message);
+      }
     }
   };
 

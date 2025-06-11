@@ -17,9 +17,14 @@ const CourseCreate = () => {
   const [credits, setCredits] = React.useState("");
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
+  const [instructorIds, setInstructorIds] = React.useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id;
   const [message, setMessage] = React.useState("");
   const [error, setError] = React.useState("");
   const [dateError, setDateError] = React.useState("");
+
+  // console.log(userId);
 
   // Date validation function
   const validateDates = () => {
@@ -37,7 +42,7 @@ const CourseCreate = () => {
     // Validate dates before submission
     if (!validateDates()) {
       alert(
-        "End date must be later than start date. Please adjust your dates.",
+          "End date must be later than start date. Please adjust your dates.",
       );
       return; // Prevent form submission
     }
@@ -51,6 +56,7 @@ const CourseCreate = () => {
         credits,
         startDate,
         endDate,
+        instructorIds: [user?.id],
       });
       setCode("");
       setTitle("");
@@ -59,6 +65,7 @@ const CourseCreate = () => {
       setCredits("");
       setStartDate("");
       setEndDate("");
+      setInstructorIds([user?.id]);
       setMessage("Course  created");
       setError("");
       setDateError("");
