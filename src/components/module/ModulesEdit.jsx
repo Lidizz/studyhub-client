@@ -23,7 +23,7 @@ const ModulesEdit = () => {
     if (!moduleId) return;
 
     axios
-      .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
+      .get(`http://localhost:8080/api/modules/${moduleId}`)
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setResourceId(res.data[0].id);
@@ -32,7 +32,7 @@ const ModulesEdit = () => {
           setError("No resource found for module");
         }
       })
-      .catch(() => setError("Failed to fetch resource"));
+      .catch(() => setError("Failed to fetch module"));
   }, [moduleId]);
 
   const handleSubmit = async (event) => {

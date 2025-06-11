@@ -42,7 +42,7 @@ const CourseCreate = () => {
     // Validate dates before submission
     if (!validateDates()) {
       alert(
-          "End date must be later than start date. Please adjust your dates.",
+        "End date must be later than start date. Please adjust your dates.",
       );
       return; // Prevent form submission
     }
