@@ -9,7 +9,17 @@ const CourseCard = ({ id, title, department, credits }) => {
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.theme);
   const { bg, text, border, hoverBg } = themeConfig[theme];
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Parse user from localStorage (added after repeated uncaught error)
+  let user = null;
+  const userData = localStorage.getItem("user");
+  if (userData) {
+    try {
+      user = JSON.parse(userData);
+    } catch (err) {
+      console.error("Failed to parse user from localStorage:", err);
+    }
+  }
   const userRole = user?.role;
 
   const handleCourseClick = () => navigate(`/course/${id}`);
