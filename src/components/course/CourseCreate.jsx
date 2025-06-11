@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
-const CourseEdit = () => {
+const CourseCreate = () => {
   const navigate = useNavigate();
-  const { courseId } = useParams();
   const { theme } = useSelector((state) => state.theme);
   const { bg, text, accentBg, border } = themeConfig[theme];
   const [code, setCode] = React.useState("");
@@ -21,89 +20,30 @@ const CourseEdit = () => {
   const [message, setMessage] = React.useState("");
   const [error, setError] = React.useState("");
   const [dateError, setDateError] = React.useState("");
-  const [formErrors, setFormErrors] = React.useState({
-    code: "",
-    title: "",
-    department: "",
-    credits: "",
-  });
 
-  // Fetch course data on component mount
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/courses/${courseId}`,
-        );
-        const course = response.data;
-        setCode(course.code);
-        setTitle(course.title);
-        setDepartment(course.department);
-        setDescription(course.description);
-        setCredits(course.credits);
-        setStartDate(course.startDate);
-        setEndDate(course.endDate);
-      } catch (err) {
-        setError("Could not fetch course data");
-        console.error(err);
-      }
-    };
-    fetchCourse();
-  }, [courseId]);
-
-  // Form validation function
-  const validateForm = () => {
-    const errors = {};
-    let isValid = true;
-
-    // Course code validation
-    if (code.length !== 6) {
-      errors.code = "Course code must be exactly 6 characters";
-      isValid = false;
-    }
-
-    // Title validation
-    if (title.length < 4) {
-      errors.title = "Title must be at least 4 characters";
-      isValid = false;
-    }
-
-    // Department validation
-    if (department.length < 2) {
-      errors.department = "Department must be at least 2 characters";
-      isValid = false;
-    }
-
-    // Credits validation
-    const creditsNum = parseInt(credits);
-    if (isNaN(creditsNum) || creditsNum < 1 || creditsNum > 30) {
-      errors.credits = "Credits must be between 1 and 30";
-      isValid = false;
-    }
-
-    // Date validation
+  // Date validation function
+  const validateDates = () => {
     if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
       setDateError("End date must be later than start date");
-      isValid = false;
-    } else {
-      setDateError("");
+      return false;
     }
-
-    setFormErrors(errors);
-    return isValid;
+    setDateError("");
+    return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Validate form before submission
-    if (!validateForm()) {
-      alert("Please fix the form errors before submitting.");
-      return;
+    // Validate dates before submission
+    if (!validateDates()) {
+      alert(
+        "End date must be later than start date. Please adjust your dates.",
+      );
+      return; // Prevent form submission
     }
 
     try {
-      await axios.put(`http://localhost:8080/api/courses/${courseId}`, {
+      await axios.post(`http://localhost:8080/api/courses`, {
         code,
         title,
         department,
@@ -112,16 +52,18 @@ const CourseEdit = () => {
         startDate,
         endDate,
       });
-      setMessage("Course updated");
+      setCode("");
+      setTitle("");
+      setDepartment("");
+      setDescription("");
+      setCredits("");
+      setStartDate("");
+      setEndDate("");
+      setMessage("Course  created");
       setError("");
-      setFormErrors({
-        code: "",
-        title: "",
-        department: "",
-        credits: "",
-      });
+      setDateError("");
     } catch (err) {
-      setError("Could not update course");
+      setError("Could not create course");
       setMessage("");
       console.error(err);
     }
@@ -153,7 +95,7 @@ const CourseEdit = () => {
             className={`bg-opacity-20 ${theme === "light" ? "bg-[#9333ea]" : "bg-[#38bdf8]"} p-4 rounded mb-6`}
           >
             <h1 className={`text-center text-2xl font-medium ${text}`}>
-              Update Course
+              Create Course
             </h1>
           </div>
 
@@ -172,18 +114,8 @@ const CourseEdit = () => {
               className={`w-full px-4 py-2 rounded-md border ${theme === "light" ? "bg-light-bg border-light-accent" : "bg-dark-bg border-dark-accent"} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
               required
               value={code}
-              onChange={(e) => {
-                setCode(e.target.value);
-                setFormErrors({ ...formErrors, code: "" });
-              }}
+              onChange={(e) => setCode(e.target.value)}
             />
-            {formErrors.code && (
-              <p
-                className={`text-sm ${theme === "light" ? "text-red-600" : "text-red-400"}`}
-              >
-                {formErrors.code}
-              </p>
-            )}
           </div>
 
           <div className="mb-4">
@@ -201,20 +133,9 @@ const CourseEdit = () => {
               className={`w-full px-4 py-2 rounded-md border ${theme === "light" ? "bg-light-bg border-light-accent" : "bg-dark-bg border-dark-accent"} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
               required
               value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                setFormErrors({ ...formErrors, title: "" });
-              }}
+              onChange={(e) => setTitle(e.target.value)}
             />
-            {formErrors.title && (
-              <p
-                className={`text-sm ${theme === "light" ? "text-red-600" : "text-red-400"}`}
-              >
-                {formErrors.title}
-              </p>
-            )}
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="department"
@@ -230,20 +151,9 @@ const CourseEdit = () => {
               className={`w-full px-4 py-2 rounded-md border ${theme === "light" ? "bg-light-bg border-light-accent" : "bg-dark-bg border-dark-accent"} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
               required
               value={department}
-              onChange={(e) => {
-                setDepartment(e.target.value);
-                setFormErrors({ ...formErrors, department: "" });
-              }}
+              onChange={(e) => setDepartment(e.target.value)}
             />
-            {formErrors.department && (
-              <p
-                className={`text-sm ${theme === "light" ? "text-red-600" : "text-red-400"}`}
-              >
-                {formErrors.department}
-              </p>
-            )}
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="description"
@@ -262,7 +172,6 @@ const CourseEdit = () => {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="credits"
@@ -279,20 +188,9 @@ const CourseEdit = () => {
               min="0"
               required
               value={credits}
-              onChange={(e) => {
-                setCredits(e.target.value);
-                setFormErrors({ ...formErrors, credits: "" });
-              }}
+              onChange={(e) => setCredits(e.target.value)}
             />
-            {formErrors.credits && (
-              <p
-                className={`text-sm ${theme === "light" ? "text-red-600" : "text-red-400"}`}
-              >
-                {formErrors.credits}
-              </p>
-            )}
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="startdate"
@@ -310,11 +208,11 @@ const CourseEdit = () => {
               value={startDate}
               onChange={(e) => {
                 setStartDate(e.target.value);
+                // Clear date error when user changes dates
                 if (dateError) setDateError("");
               }}
             />
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="enddate"
@@ -332,6 +230,7 @@ const CourseEdit = () => {
               value={endDate}
               onChange={(e) => {
                 setEndDate(e.target.value);
+                // Clear date error when user changes dates
                 if (dateError) setDateError("");
               }}
             />
@@ -385,4 +284,4 @@ const CourseEdit = () => {
   );
 };
 
-export default CourseEdit;
+export default CourseCreate;

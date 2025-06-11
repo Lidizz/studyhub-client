@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setTheme } from "../store/themeSlice";
-import { themeConfig } from "../themeConfig";
-import profilePlaceholder from "../assets/profile-placeholder.jpg";
+import { setTheme } from "../../store/themeSlice.js";
+import { themeConfig } from "../../themeConfig.js";
+import profilePlaceholder from "../../assets/profile-placeholder.jpg";
 
 const Header = () => {
   const navigate = useNavigate();

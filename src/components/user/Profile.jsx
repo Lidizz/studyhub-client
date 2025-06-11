@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../themeConfig.js";
+import { themeConfig } from "../../themeConfig.js";
 
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem("user"));

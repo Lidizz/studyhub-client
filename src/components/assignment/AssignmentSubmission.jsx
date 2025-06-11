@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
 const AssignmentSubmission = () => {
   const { courseId, assignmentId } = useParams();
@@ -386,7 +386,7 @@ const AssignmentSubmission = () => {
       console.error("Error saving grade:", err);
       alert(
         "Failed to save grade:\n" +
-          "Please enter A, B, C, D, E or  F as a grade"/* + (err.response?.data?.message || err.message)*/,
+          "Please enter A, B, C, D, E or  F as a grade" /* + (err.response?.data?.message || err.message)*/,
       );
     }
   };
@@ -1014,13 +1014,13 @@ const AssignmentSubmission = () => {
                         </div>
                       ))}
                       <button
-                          type="button"
-                          onClick={handleGoBack}
-                          className={`px-6 py-2 rounded-lg ${
-                              theme === "light"
-                                  ? "border-gray-300 text-[#9333ea] hover:bg-gray-200"
-                                  : "border-gray-600 text-[#f9fafb] hover:bg-gray-700"
-                          }`}
+                        type="button"
+                        onClick={handleGoBack}
+                        className={`px-6 py-2 rounded-lg ${
+                          theme === "light"
+                            ? "border-gray-300 text-[#9333ea] hover:bg-gray-200"
+                            : "border-gray-600 text-[#f9fafb] hover:bg-gray-700"
+                        }`}
                       >
                         Cancel
                       </button>

@@ -1,55 +1,40 @@
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
-import React, { useEffect, useState } from "react";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
-const ResourceUpdate = () => {
+const ModulesCreate = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.theme);
   const { bg, text, accentBg, border } = themeConfig[theme];
-  const [resources, setResources] = useState([]);
   const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [moduleNumber, setModuleNumber] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [error, setError] = React.useState("");
-  const { resourceId } = useParams();
-  const { moduleId } = useParams();
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/modules/${moduleId}/resources`)
-      .then((response) => {
-        console.log("Full response:", response.data); // See the structure
-        setResources(response.data);
-      })
-      .catch((error) => setError(error))
-      .finally(() => setError(null));
-  }, [moduleId]);
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
     try {
-      await axios.put(
-        `http://localhost:8080/api/modules/${moduleId}/resources/${resourceId}`,
-        {
-          title,
-          content,
-        },
-      );
-      setMessage("Resource updated successfully");
-      setError("");
-
+      axios.post(`http://localhost:8080/api/courses/${courseId}/modules`, {
+        courseId,
+        title,
+        description,
+        moduleNumber,
+      });
       setTitle("");
-      setContent("");
-    } catch (error) {
-      console.log(error);
-      setError("An error occurred while updating the resource");
+      setDescription("");
+      setModuleNumber("");
+      setMessage("Module submitted");
+      setError("");
+    } catch (err) {
+      setError("Could not create module");
       setMessage("");
+      console.error(err);
     }
   };
 
@@ -59,11 +44,7 @@ const ResourceUpdate = () => {
     <div className={`relative min-h-screen ${bg} ${text}`}>
       <button
         onClick={handleGoBack}
-        className={`absolute top-4 left-4 flex items-center space-x-2 ${
-          theme === "light"
-            ? "text-[#9333ea] hover:text-[#7b2cbf]"
-            : "text-[#f9fafb] hover:text-[#d8b4fe]"
-        }`}
+        className={`absolute top-4 left-4 flex items-center space-x-2 ${theme === "light" ? "text-[#9333ea] hover:text-[#7b2cbf]" : "text-[#f9fafb] hover:text-[#d8b4fe]"}`}
       >
         <span
           className="icon-wrapper"
@@ -79,12 +60,10 @@ const ResourceUpdate = () => {
           className={`max-w-md mx-auto mt-16 p-6 rounded-lg shadow-md ${bg} ${border}`}
         >
           <div
-            className={`bg-opacity-20 ${
-              theme === "light" ? "bg-[#9333ea]" : "bg-[#38bdf8]"
-            } p-4 rounded mb-6`}
+            className={`bg-opacity-20 ${theme === "light" ? "bg-[#9333ea]" : "bg-[#38bdf8]"} p-4 rounded mb-6`}
           >
             <h1 className={`text-center text-2xl font-medium ${text}`}>
-              Update Resource
+              Create Module
             </h1>
           </div>
 
@@ -99,63 +78,59 @@ const ResourceUpdate = () => {
               type="text"
               id="title"
               name="title"
+              placeholder="Enter module title"
               className={`w-full px-4 py-2 rounded-md border ${theme === "light" ? "bg-light-bg border-light-accent" : "bg-dark-bg border-dark-accent"} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
+
           <div className="mb-4">
             <label
-              htmlFor="content"
+              htmlFor="description"
               className={`block text-sm font-medium ${text}`}
             >
-              Resource content:
+              Description:
             </label>
             <input
               type="text"
-              id="content"
-              name="content"
+              id="description"
+              name="description"
+              placeholder="Enter module description"
               className={`w-full px-4 py-2 rounded-md border ${theme === "light" ? "bg-light-bg border-light-accent" : "bg-dark-bg border-dark-accent"} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
               required
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
           <div className="mb-4">
             <label
-              htmlFor="moduleId"
+              htmlFor="modulenr"
               className={`block text-sm font-medium ${text}`}
             >
-              Module ID:
+              Module Number:
             </label>
             <input
-              type="text"
-              id="moduleId"
-              className="w-full px-3 py-2 border rounded"
-              value={moduleId || ""}
-              readOnly
+              type="number"
+              id="modulenr"
+              name="modulenr"
+              placeholder="Enter module number"
+              className={`w-full px-4 py-2 rounded-md border ${theme === "light" ? "bg-light-bg border-light-accent" : "bg-dark-bg border-dark-accent"} ${text} focus:outline-none focus:ring-2 focus:ring-[#9333ea]`}
+              min="0"
+              required
+              value={moduleNumber}
+              onChange={(e) => setModuleNumber(e.target.value)}
             />
           </div>
 
-          <div className="flex space-x-4">
+          <div className="mb-4">
             <button
               type="submit"
-              className={`px-6 py-2 rounded-md ${accentBg} ${theme === "light" ? "text-light-bg" : "text-dark-bg"} hover:bg-[#7b2cbf] transition-colors font-medium`}
+              className={`w-full px-6 py-2 rounded-md ${accentBg} ${theme === "light" ? "text-light-bg" : "text-dark-bg"} hover:bg-[#7b2cbf] transition-colors font-medium`}
             >
-              Update Resource
-            </button>
-            <button
-              type="button"
-              onClick={handleGoBack}
-              className={`px-6 py-2 rounded-md ${
-                theme === "light"
-                  ? "bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200"
-                  : "bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700"
-              } transition-colors`}
-            >
-              Cancel
+              Submit
             </button>
           </div>
 
@@ -173,10 +148,20 @@ const ResourceUpdate = () => {
               {message}
             </p>
           )}
+
+          <div className="flex justify-end mt-6">
+            <button
+              type="button"
+              onClick={handleGoBack}
+              className={`px-6 py-2 rounded-md ${theme === "light" ? "bg-light-bg text-[#9333ea] border border-light-accent hover:bg-gray-200" : "bg-dark-bg text-[#f9fafb] border border-dark-accent hover:bg-gray-700"} transition-colors`}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 };
 
-export default ResourceUpdate;
+export default ModulesCreate;

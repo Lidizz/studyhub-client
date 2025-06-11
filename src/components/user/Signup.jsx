@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Eye, EyeOff } from "lucide-react";
-import { iconColors } from "../utils/styles";
-import { themeConfig } from "../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
+import { themeConfig } from "../../themeConfig.js";
 
 const Signup = () => {
   const [formData, setFormData] = React.useState({

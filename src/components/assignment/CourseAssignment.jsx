@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../../themeConfig";
-import { iconColors } from "../../../utils/styles";
+import { themeConfig } from "../../themeConfig.js";
+import { iconColors } from "../../utils/styles.js";
 
 const CourseAssignment = () => {
   const { courseId } = useParams();

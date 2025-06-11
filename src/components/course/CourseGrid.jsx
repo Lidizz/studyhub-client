@@ -2,7 +2,7 @@ import CourseCard from "./CourseCard.jsx";
 import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../../themeConfig";
+import { themeConfig } from "../../themeConfig.js";
 import { useNavigate } from "react-router-dom";
 
 const CourseGrid = () => {

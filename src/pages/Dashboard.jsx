@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardCard from "../components/DashboardCard.jsx";
+import DashboardCard from "../components/common/DashboardCard.jsx";
 import { useSelector } from "react-redux";
 import { themeConfig } from "../themeConfig.js";
 

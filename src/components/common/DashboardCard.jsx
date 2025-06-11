@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { themeConfig } from "../themeConfig.js";
+import { themeConfig } from "../../themeConfig.js";
 
 const DashboardCard = () => {
   const { theme } = useSelector((state) => state.theme);
