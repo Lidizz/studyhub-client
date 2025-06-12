@@ -34,13 +34,15 @@ const Signup = () => {
       return;
     }
     try {
-      await axios.post(`http://localhost:8080/api/users/register`, {
+      const response = await axios.post(`http://localhost:8080/api/users/register`, {
         email: formData.email,
         firstName: formData.firstName,
         lastName: formData.lastName,
         role: formData.role,
         password: formData.password,
       });
+
+      localStorage.setItem("user", JSON.stringify(response.data));
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data || "Registration failed");
