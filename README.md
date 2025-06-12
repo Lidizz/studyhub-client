@@ -195,7 +195,13 @@ studyhub-client/
 ├── tailwind.config.js        
 ├── vite.config.js            
 ```
- 
+## Team Members
+- Lidor Shachar
+- Sahrish Nosheen
+- Christin Wøien Skattum
+- Camilla Dahl Strømberg
+- Adnan Mohamed Osman Arab 
+
 ## Contributing
 1. Fork the repository.
 2. Create a feature branch (`git checkout -b feature/your-feature`).
@@ -204,13 +210,8 @@ studyhub-client/
 5. Create a pull request.
  
 Please ensure code follows the ESLint and Prettier configurations for the frontend and adheres to Java coding standards for the backend.
+
  
-## Team Members
-- Lidor Shachar
-- Sahrish Nosheen
-- Christin Wøien Skattum
-- Camilla Dahl Strømberg
-- Adnan Mohamed Osman Arab
- 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+[//]: # (## License)
+
+[//]: # (This project is licensed under the MIT License. See the [LICENSE]&#40;LICENSE&#41; file for details.)
