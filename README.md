@@ -11,13 +11,12 @@ Our goal is to enable instructors and educational institutions to deliver high q
 - [Setup Instructions](#setup-instructions)
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
-  - [Database Setup](#database-setup)
 - [Running the Application](#running-the-application)
 - [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 - [Team Members](#team-members)
-- [License](#license)
+
+[//]: # (- [License]&#40;#license&#41;)
  
 ## Project Overview
 StudyHub is a platform that enables:
@@ -112,7 +111,7 @@ The frontend is built with React 19, utilizing Redux for state management and Ta
 - **Swagger**
 - **Git**
  
-## Prerequisites (used by us)
+## Prerequisites
 - **Node.js**: Version 20.x or higher
 - **Java**: Version 21
 - **Maven**: For building the Spring Boot backend
@@ -124,13 +123,13 @@ The frontend is built with React 19, utilizing Redux for state management and Ta
  
 ### Backend Setup
 1. **Clone the Repository**:
-  - Recommended to follow the readme on: [StudyHub Backend Repository](https://github.com/Lidizz/studyhub-backend)  
+   - Recommended to follow the readme on: [StudyHub Backend Repository](https://github.com/Lidizz/studyhub-backend)  
 
-  **Or clone from the following:**
-   ```bash
-   git clone <https://github.com/Lidizz/studyhub-backend.git>
-   cd studyhub-backend
-   ```
+       **Or clone from the following:**
+        ```bash
+        git clone <https://github.com/Lidizz/studyhub-backend.git>
+        cd studyhub-backend
+        ```
 2. **Configure PostgreSQL**:
    - Create a PostgreSQL database named `studyhub-db`.
    - Update the `application.properties` file in `src/main/resources` with your database credentials:
