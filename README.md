@@ -1,9 +1,15 @@
-# StudyHub
+# StudyHub Frontend
+
+![ReactJS](https://img.shields.io/badge/ReactJS-19-blue)
+![NodeJS](https://img.shields.io/badge/NodeJS-20-green)
+![Vite](https://img.shields.io/badge/Vite-6-purple)
+![Status](https://img.shields.io/badge/Status-Development-red)
  
 StudyHub is a minimalist online learning platform designed to increase productivity and promote effective learning through consistent management of educational resources.
 Our goal is to enable instructors and educational institutions to deliver high quality learning experiences efficiently.
  
 ## Table of Contents
+- [Project Structure](#project-structure)
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Technologies](#technologies)
@@ -12,11 +18,37 @@ Our goal is to enable instructors and educational institutions to deliver high q
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
 - [Running the Application](#running-the-application)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
 - [Team Members](#team-members)
 
+[//]: # (- [Contributing]&#40;#contributing&#41;)
 [//]: # (- [License]&#40;#license&#41;)
+
+## Project Structure
+### Frontend (`studyhub-client`)
+```
+studyhub-client/
+├── src/
+│   ├── components/
+│   │   ├── assignment/        
+│   │   ├── common/            
+│   │   ├── course/            
+│   │   ├── module/            
+│   │   ├── resource/          
+│   │   ├── user/              
+│   ├── pages/                  
+│   ├── services/              
+│   ├── store/                
+│   ├── utils/                
+│   ├── App.jsx                
+│   ├── index.css              
+│   ├── main.jsx              
+│   ├── themeConfig.js        
+├── eslint.config.js          
+├── package.json              
+├── postcss.config.js          
+├── tailwind.config.js        
+├── vite.config.js            
+```
  
 ## Project Overview
 StudyHub is a platform that enables:
@@ -167,33 +199,7 @@ The frontend is built with React 19, utilizing Redux for state management and Ta
 2. Run the frontend development server (`npm run dev`).
 3. Open `http://localhost:5173` in your browser to access the application.
 4. Use the signup page (`/signup`) to create a new user account or log in (`/login`) with existing credentials.
- 
-## Project Structure
-### Frontend (`studyhub-client`)
-```
-studyhub-client/
-├── src/
-│   ├── components/
-│   │   ├── assignment/        
-│   │   ├── common/            
-│   │   ├── course/            
-│   │   ├── module/            
-│   │   ├── resource/          
-│   │   ├── user/              
-│   ├── pages/                  
-│   ├── services/              
-│   ├── store/                
-│   ├── utils/                
-│   ├── App.jsx                
-│   ├── index.css              
-│   ├── main.jsx              
-│   ├── themeConfig.js        
-├── eslint.config.js          
-├── package.json              
-├── postcss.config.js          
-├── tailwind.config.js        
-├── vite.config.js            
-```
+
 ## Team Members
 - Lidor Shachar
 - Sahrish Nosheen
@@ -201,14 +207,19 @@ studyhub-client/
 - Camilla Dahl Strømberg
 - Adnan Mohamed Osman Arab 
 
-## Contributing
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m "Add your feature"`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Create a pull request.
+[//]: # (## Contributing)
+
+[//]: # (1. Fork the repository.)
+
+[//]: # (2. Create a feature branch &#40;`git checkout -b feature/your-feature`&#41;.)
+
+[//]: # (3. Commit your changes &#40;`git commit -m "Add your feature"`&#41;.)
+
+[//]: # (4. Push to the branch &#40;`git push origin feature/your-feature`&#41;.)
+
+[//]: # (5. Create a pull request.)
  
-Please ensure code follows the ESLint and Prettier configurations for the frontend and adheres to Java coding standards for the backend.
+[//]: # (Please ensure code follows the ESLint and Prettier configurations for the frontend and adheres to Java coding standards for the backend.)
 
  
 [//]: # (## License)
