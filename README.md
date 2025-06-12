@@ -1,6 +1,7 @@
 # StudyHub
  
-StudyHub is a minimalist online learning platform designed to increase productivity and promote effective learning through consistent management of educational resources. Our goal is to enable instructors and educational institutions to deliver high quality learning experiences efficiently.
+StudyHub is a minimalist online learning platform designed to increase productivity and promote effective learning through consistent management of educational resources.
+Our goal is to enable instructors and educational institutions to deliver high quality learning experiences efficiently.
  
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -117,7 +118,7 @@ The frontend is built with React 19, utilizing Redux for state management and Ta
 - **Maven**: For building the Spring Boot backend
 - **PostgreSQL**: Version 15 or higher
 - **Git**: For cloning the repository
-- **Code Editor**: Developed with Webstorm oand IntelliJ IDEA but any editor can work
+- **Code Editor**: Developed with Webstorm and IntelliJ IDEA but any editor can work
  
 ## Setup Instructions
  
