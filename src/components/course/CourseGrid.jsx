@@ -24,8 +24,6 @@ const CourseGrid = () => {
     }
     let endpoint;
 
-    //
-
     if (userRole === "STUDENT") {
       endpoint = `http://localhost:8080/api/courses/student/${userId}/summary`;
     } else if (userRole === "INSTRUCTOR") {
@@ -37,16 +35,20 @@ const CourseGrid = () => {
     }
 
     axios
-      .get(endpoint)
-      .then((response) => {
-        setCourses(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching courses:", err);
-        setError("Error fetching courses");
-        setLoading(false);
-      });
+        .get(endpoint)
+        .then((response) => {
+          setCourses(response.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            console.error("Error fetching courses:", err);
+            setError(null);
+            setLoading(false);
+          } else {
+            setError("Error fetching courses");
+          }
+        });
   }, [userId, userRole]);
 
   if (loading) return <p>Loading...</p>;
@@ -71,7 +73,7 @@ const CourseGrid = () => {
         <div className="flex justify-between items-center mb-4"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.length === 0 && <p>No enrolled courses.</p>}
+          {courses.length === 0 && <p>No active courses.</p>}
           {courses.map((course, index) => (
             <CourseCard
               key={index}
